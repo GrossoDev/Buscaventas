@@ -31,7 +31,11 @@ Vue.component('query', {
       return this.get_sellers().length;
     },
     thumbnail: function() {
-      return this.query.results[0]?.thumbnail;
+      let result = this.query.results[0];
+
+      if (result) return result.thumbnail;
+
+      return null;
     } 
   },
   methods: {
