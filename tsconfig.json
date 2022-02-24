@@ -9,7 +9,8 @@
     ],
 
     /* Emit */
-    "outFile": "js/main.js",                /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */
+    "outFile": "js/main.js",                  /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */
+    "emitBOM": true,                          /* Emit BOM to help Firefox recognize the file as UTF-8 */
 
     /* Interop Constraints */
     "esModuleInterop": true,                  /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
@@ -19,5 +20,5 @@
     "strict": true,                           /* Enable all strict type-checking options. */
     "skipLibCheck": true                      /* Skip type checking all .d.ts files. */
   },
-  "include": [ "ts/*" ]
+  "include": [ "ts/*.*", "ts/Components/*" ]
 }

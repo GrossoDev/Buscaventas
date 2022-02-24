@@ -1,19 +1,21 @@
 class Search {
     static readonly URL = "https://api.mercadolibre.com/sites/MLA/search?q=";
-    static readonly LIMIT = 1000;
+    static readonly PAGING = 50;    // The amount of results per request
+    static readonly LIMIT = 1000;   // The maximum amount amount of results
 
     static query(query: string, maxResults: number) : Promise<SearchResult[]> {
-        // Split calls into requests by maxResults/LIMIT
-        let requests: number = maxResults/Search.LIMIT;
+        // Split request into promises
+        let requests: number = maxResults / Search.PAGING;
         let promises: Promise<any>[] = [];
 
-        // Make a call for each range of requests
-        for (let request = 0; request < requests; request++) {
-            let offset = request * Search.LIMIT;
+        // Make a promise for each range of requests
+        for (let request = 0, offset = 0;
+             request < requests && offset <= Search.LIMIT;
+             request++, offset = request * Search.PAGING) {
             let url = `${Search.URL}${query}&offset=${offset}`;
 
             promises.push(Promise.resolve($.ajax(url)
-                .then((response) => Search.parseResults(response.results)))
+                .then(response => Search.parseResults(response.results)))
             );
         }
 
@@ -40,6 +42,4 @@ class Search {
                 return arr;
             }, []);
     }
-}
-
-Search.query("Cargador", 300).then((result) => console.log(result));
+} 
