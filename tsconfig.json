@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "es6",                           /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "es3",                           /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     
-    /* Modules */
-    //"module": "amd",                        /* Specify what module code is generated. */
-    //"importHelpers": true,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
 
     /* Emit */
-    // "sourceMap": true,                     /* Create source map files for emitted JavaScript files. */
-    "outFile": "./js/main.js",                /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */
-    //"outDir": "./js",                       /* Specify an output folder for all emitted files. */
+    "outFile": "js/main.js",                /* Specify a file that bundles all outputs into one JavaScript file. If `declaration` is true, also designates a file that bundles all .d.ts output. */
 
     /* Interop Constraints */
     "esModuleInterop": true,                  /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
