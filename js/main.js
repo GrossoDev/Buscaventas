@@ -9,12 +9,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 var Query = /** @class */ (function () {
-    function Query(id, title, results, thumbnail, minPrice) {
+    function Query(id, title, results) {
         this.id = id;
         this.title = title;
         this.results = results;
-        this.thumbnail = thumbnail;
-        this.min_price = minPrice;
     }
     return Query;
 }());
@@ -60,6 +58,30 @@ var SearchResult = /** @class */ (function () {
     }
     return SearchResult;
 }());
+var Seller = /** @class */ (function () {
+    function Seller(id) {
+        this.id = id;
+    }
+    Seller.prototype.find_result = function (query) {
+        var _this = this;
+        var results = vue.sort_results_byPrice(query);
+        console.log(query);
+        return results.filter(function (e) { return e.sellerId == _this.id; })[0];
+    };
+    Seller.prototype.find_totalPrice = function (queries) {
+        var _this = this;
+        var sum = 0;
+        for (var _i = 0, queries_1 = queries; _i < queries_1.length; _i++) {
+            var query = queries_1[_i];
+            var results = vue.sort_results_byPrice(query);
+            results = results.filter(function (e) { return e.sellerId == _this.id; });
+            if (results[0])
+                sum += results[0].price;
+        }
+        return sum;
+    };
+    return Seller;
+}());
 var currentId = 0;
 var vue = new Vue({
     el: '#app',
@@ -80,45 +102,20 @@ var vue = new Vue({
                 return 0;
             else
                 matches = vue.get_sellers(queries[0]);
-            var _loop_1 = function (queryIdx) {
-                var query = queries[queryIdx];
-                var sellers_1 = vue.get_sellers(query);
-                matches = matches.filter(function (e) { return sellers_1.includes(e); });
-            };
-            for (var queryIdx in queries) {
-                _loop_1(queryIdx);
-            }
+            queries.forEach(function (query) {
+                var sellers = vue.get_sellers(query);
+                matches = matches.filter(function (e) { return sellers.includes(e); });
+            });
             // Then, create a seller object for all the matches.
-            for (var matchIdx in matches) {
-                var seller = {
-                    id: matches[matchIdx],
-                    find_result: function (query) {
-                        var _this = this;
-                        var results = vue.sort_results_byPrice(query);
-                        return results.filter(function (e) { return e.sellerId == _this.id; })[0];
-                    },
-                    find_totalPrice: function () {
-                        var _this = this;
-                        var sum = 0;
-                        for (var queryIdx in queries) {
-                            var query = queries[queryIdx];
-                            var results = vue.sort_results_byPrice(query);
-                            results = results.filter(function (e) { return e.sellerId == _this.id; });
-                            sum += results[0].price;
-                        }
-                        return sum;
-                    }
-                };
-                sellers.push(seller);
-            }
-            return sellers.sort(function (a, b) { return a.find_totalPrice() - b.find_totalPrice(); });
+            matches.forEach(function (match) { return sellers.push(new Seller(match)); });
+            return sellers.sort(function (a, b) { return a.find_totalPrice(queries) - b.find_totalPrice(queries); });
         }
     },
     methods: {
         ui_search: function (searchQuery) {
             var _this = this;
             Search.query(searchQuery, this.max_results).then(function (results) {
-                _this.queries.push(new Query(currentId++, searchQuery, results, null, 0));
+                _this.queries.push(new Query(currentId++, searchQuery, results));
             });
         },
         sort_results_byPrice: function (query) {
@@ -126,18 +123,18 @@ var vue = new Vue({
             return results.sort(function (a, b) { return a.price - b.price; });
         },
         get_sellers: function (query) {
-            var sellers = [];
-            var results = query.results;
-            for (var resultIdx in results) {
-                var result = results[resultIdx];
+            return query.results.reduce(function (sellers, result) {
                 if (!sellers.includes(result.sellerId)) {
                     sellers.push(result.sellerId);
                 }
-            }
-            return sellers;
+                return sellers;
+            }, []);
         }
     }
 });
+// @ts-nocheck
+// No type checking because it's impossible to combine with Vue's reactiveness.
+// However, types are still declared as hints.
 Vue.component('query', {
     template: '#query-template',
     props: {
@@ -156,14 +153,9 @@ Vue.component('query', {
             return vue.queries.find(function (e) { return e.id == _this.id; });
         },
         min_price: function () {
-            var min;
-            for (var resultIdx in this.query.results) {
-                var result = this.query.results[resultIdx];
-                if (min == undefined || result.price < min) {
-                    min = result.price;
-                }
-            }
-            return min;
+            if (!this.query.results.length)
+                return 0;
+            return this.query.results.reduce(function (a, b) { return Math.min(a, b.price); }, Infinity);
         },
         seller_count: function () {
             return this.get_sellers().length;
@@ -172,7 +164,7 @@ Vue.component('query', {
             var result = this.query.results[0];
             if (result)
                 return result.thumbnail;
-            return null;
+            return "";
         }
     },
     methods: {
@@ -188,6 +180,9 @@ Vue.component('query', {
         }
     }
 });
+// @ts-nocheck
+// No type checking because it's impossible to combine with Vue's reactiveness.
+// However, types are still declared as hints.
 Vue.component('result', {
     template: '#result-template',
     props: {

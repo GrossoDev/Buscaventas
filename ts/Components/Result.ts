@@ -1,3 +1,7 @@
+// @ts-nocheck
+// No type checking because it's impossible to combine with Vue's reactiveness.
+// However, types are still declared as hints.
+
 Vue.component('result', {
     template: '#result-template',
     props: {

@@ -1,3 +1,7 @@
+// @ts-nocheck
+// No type checking because it's impossible to combine with Vue's reactiveness.
+// However, types are still declared as hints.
+
 Vue.component('query', {
     template: '#query-template',
     props: {
@@ -14,28 +18,21 @@ Vue.component('query', {
       query: function() {
         return vue.queries.find(e => e.id == this.id);
       },
-      min_price: function() {
-        let min;
-  
-        for (let resultIdx in this.query.results) {
-          let result = this.query.results[resultIdx];
-  
-          if (min == undefined || result.price < min) {
-            min = result.price;
-          }
-        }
-  
-        return min;
+      min_price: function(): number {
+        if (!this.query.results.length) return 0;
+
+        return this.query.results.reduce(
+          (a: number, b: SearchResult) => Math.min(a, b.price), Infinity);
       },
-      seller_count: function() {
+      seller_count: function(): number {
         return this.get_sellers().length;
       },
-      thumbnail: function() {
+      thumbnail: function(): string {
         let result = this.query.results[0];
   
         if (result) return result.thumbnail;
   
-        return null;
+        return "";
       } 
     },
     methods: {

@@ -10,8 +10,8 @@ let vue = new Vue({
   },
   computed: {
     matching_sellers: () => {
-      let matches = [];
-      let sellers = [];
+      let matches: string[] = [];
+      let sellers: Seller[] = [];
       let queries = vue.queries;
       
       // First, take the sellers from the first query, and 
@@ -19,67 +19,37 @@ let vue = new Vue({
       if (queries.length == 0) return 0;
       else matches = vue.get_sellers(queries[0]);
       
-      for (let queryIdx in queries) {
-        let query = queries[queryIdx];
+      queries.forEach(query => {
         let sellers = vue.get_sellers(query);
 
         matches = matches.filter(e => sellers.includes(e));
-      }
+      });
 
       // Then, create a seller object for all the matches.
-      for (let matchIdx in matches) {
-        let seller = {
-          id: matches[matchIdx],
-          find_result: function(query) {
-            let results = vue.sort_results_byPrice(query);
+      matches.forEach(match => sellers.push(new Seller(match)));
 
-            return results.filter(e => e.sellerId == this.id)[0];
-          },
-          find_totalPrice: function() {
-            let sum = 0;
-
-            for (let queryIdx in queries) {
-              let query = queries[queryIdx];
-              let results = vue.sort_results_byPrice(query);
-              results = results.filter(e => e.sellerId == this.id)
-
-              sum += results[0].price;
-            }
-
-            return sum;
-          }
-        }
-
-        sellers.push(seller);
-      }
-
-      return sellers.sort((a, b) => a.find_totalPrice() - b.find_totalPrice());
+      return sellers.sort((a, b) => a.find_totalPrice(queries) - b.find_totalPrice(queries));
     }
   },
   methods: {
-    ui_search: function(searchQuery) {
+    ui_search: function(searchQuery: string) {
       Search.query(searchQuery, this.max_results).then(results => {
-        this.queries.push(new Query(currentId++, searchQuery, results, null, 0));
+        this.queries.push(new Query(currentId++, searchQuery, results));
       });
     },
-    sort_results_byPrice: function(query) {
+    sort_results_byPrice: function(query: Query) {
       let results = [...query.results];
       
       return results.sort((a, b) => a.price - b.price);
     },
-    get_sellers: function(query) {
-      let sellers = [];
-      let results = query.results
-
-      for (let resultIdx in results) {
-        let result = results[resultIdx];
-
+    get_sellers: function(query: Query) {
+      return query.results.reduce((sellers: string[], result: SearchResult) => {
         if (!sellers.includes(result.sellerId)) {
           sellers.push(result.sellerId);
         }
-      }
 
-      return sellers;
+        return sellers;
+      }, []);
     }
   }
 });
