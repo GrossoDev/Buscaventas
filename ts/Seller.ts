@@ -3,7 +3,7 @@ class Seller {
 
     find_result(query: Query) {
       let results: SearchResult[] = vue.sort_results_byPrice(query);
-        console.log(query);
+
       return results.filter(e => e.sellerId == this.id)[0];
     }
 

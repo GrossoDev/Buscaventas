@@ -1,10 +1,8 @@
-let currentId = 0;
-
 let vue = new Vue({
   el: '#app',
   data: {
     ui_searchQuery: null,
-    ui_filteringQuery: null,
+    ui_filteringQuery: new Query("Error"),
     queries: [],
     max_results: 300
   },
@@ -33,8 +31,12 @@ let vue = new Vue({
   },
   methods: {
     ui_search: function(searchQuery: string) {
+      let query = new Query(searchQuery);
+      this.queries.push(query);
+
       Search.query(searchQuery, this.max_results).then(results => {
-        this.queries.push(new Query(currentId++, searchQuery, results));
+        query.results = results;
+        query.loaded = true;
       });
     },
     sort_results_byPrice: function(query: Query) {

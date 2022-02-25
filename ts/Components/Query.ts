@@ -18,6 +18,9 @@ Vue.component('query', {
       query: function() {
         return vue.queries.find(e => e.id == this.id);
       },
+      loaded: function() {
+        return this.query.loaded;
+      },
       min_price: function(): number {
         if (!this.query.results.length) return 0;
 

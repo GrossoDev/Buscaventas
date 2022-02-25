@@ -9,11 +9,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 var Query = /** @class */ (function () {
-    function Query(id, title, results) {
-        this.id = id;
+    function Query(title, results) {
+        if (results === void 0) { results = []; }
+        this.loaded = false;
+        this.id = Query.currentId++;
         this.title = title;
         this.results = results;
     }
+    Query.currentId = 0;
     return Query;
 }());
 var Search = /** @class */ (function () {
@@ -65,7 +68,6 @@ var Seller = /** @class */ (function () {
     Seller.prototype.find_result = function (query) {
         var _this = this;
         var results = vue.sort_results_byPrice(query);
-        console.log(query);
         return results.filter(function (e) { return e.sellerId == _this.id; })[0];
     };
     Seller.prototype.find_totalPrice = function (queries) {
@@ -82,12 +84,11 @@ var Seller = /** @class */ (function () {
     };
     return Seller;
 }());
-var currentId = 0;
 var vue = new Vue({
     el: '#app',
     data: {
         ui_searchQuery: null,
-        ui_filteringQuery: null,
+        ui_filteringQuery: new Query("Error"),
         queries: [],
         max_results: 300
     },
@@ -113,9 +114,11 @@ var vue = new Vue({
     },
     methods: {
         ui_search: function (searchQuery) {
-            var _this = this;
+            var query = new Query(searchQuery);
+            this.queries.push(query);
             Search.query(searchQuery, this.max_results).then(function (results) {
-                _this.queries.push(new Query(currentId++, searchQuery, results));
+                query.results = results;
+                query.loaded = true;
             });
         },
         sort_results_byPrice: function (query) {
@@ -151,6 +154,9 @@ Vue.component('query', {
         query: function () {
             var _this = this;
             return vue.queries.find(function (e) { return e.id == _this.id; });
+        },
+        loaded: function () {
+            return this.query.loaded;
         },
         min_price: function () {
             if (!this.query.results.length)
