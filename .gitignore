@@ -1,2 +1,6 @@
-# VSCode stuff
-.vscode/
+node_modules/
+.node_modules/
+**/.vs
+**/.vscode/*
+**/.DS_Store
+package-lock.json
