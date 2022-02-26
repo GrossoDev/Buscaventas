@@ -3,6 +3,7 @@ let vue = new Vue({
   data: {
     ui_searchQuery: null,
     ui_filteringQuery: new Query("Error"),
+    searchError: "",
     queries: [],
     max_results: 300
   },
@@ -31,6 +32,16 @@ let vue = new Vue({
   },
   methods: {
     ui_search: function(searchQuery: string) {
+      if (!searchQuery) {
+        this.searchError = "EmptyQuery";
+        return;
+      } else if (this.queries.find((query: Query) => query.title == searchQuery)) {
+        this.searchError = "Repeated";
+        return;
+      } 
+
+      this.searchError = "";
+
       let query = new Query(searchQuery);
       this.queries.push(query);
 

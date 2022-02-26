@@ -89,6 +89,7 @@ var vue = new Vue({
     data: {
         ui_searchQuery: null,
         ui_filteringQuery: new Query("Error"),
+        searchError: "",
         queries: [],
         max_results: 300
     },
@@ -114,6 +115,15 @@ var vue = new Vue({
     },
     methods: {
         ui_search: function (searchQuery) {
+            if (!searchQuery) {
+                this.searchError = "EmptyQuery";
+                return;
+            }
+            else if (this.queries.find(function (query) { return query.title == searchQuery; })) {
+                this.searchError = "Repeated";
+                return;
+            }
+            this.searchError = "";
             var query = new Query(searchQuery);
             this.queries.push(query);
             Search.query(searchQuery, this.max_results).then(function (results) {
