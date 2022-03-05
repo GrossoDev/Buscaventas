@@ -12,7 +12,7 @@ class Search {
         for (let request = 0, offset = 0;
              request < requests && offset <= Search.LIMIT;
              request++, offset = request * Search.PAGING) {
-            let url = `${Search.URL}${query}&offset=${offset}`;
+            let url = `${Search.URL}${query.toLowerCase()}&offset=${offset}`;   // Make the query lower case for easier caching
 
             promises.push(Promise.resolve($.ajax(url)
                 .then(response => Search.parseResults(response.results)))

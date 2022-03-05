@@ -28,7 +28,7 @@ var Search = /** @class */ (function () {
         var promises = [];
         // Make a promise for each range of requests
         for (var request = 0, offset = 0; request < requests && offset <= Search.LIMIT; request++, offset = request * Search.PAGING) {
-            var url = "".concat(Search.URL).concat(query, "&offset=").concat(offset);
+            var url = "".concat(Search.URL).concat(query.toLowerCase(), "&offset=").concat(offset); // Make the query lower case for easier caching
             promises.push(Promise.resolve($.ajax(url)
                 .then(function (response) { return Search.parseResults(response.results); })));
         }
