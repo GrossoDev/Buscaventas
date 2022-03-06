@@ -28,9 +28,9 @@ Vue.component('result', {
     },
     methods: {
       remove_result: function() {
-        let results = vue.ui_filteringQuery.results;
+        let results = vue.filteringQuery.results;
   
-        vue.ui_filteringQuery.results = results.filter(e => e.id != this.id);
+        vue.filteringQuery.results = results.filter(e => e.id != this.id);
       }
     }
   });

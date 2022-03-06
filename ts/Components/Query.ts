@@ -12,14 +12,21 @@ Vue.component('query', {
       title: {
         type: String,
         required: true
+      },
+      query: {
+        type: Object,
+        requires: true
       }
     },
     computed: {
-      query: function() {
-        return vue.queries.find(e => e.id == this.id);
-      },
       loaded: function() {
         return this.query.loaded;
+      },
+      results: function() {
+        let query = this.query;
+        let filter = query.filter;
+
+        return query.results.filter(result =>  QueryFilter.checkResult(filter, result));
       },
       min_price: function(): number {
         if (!this.query.results.length) return 0;
@@ -31,7 +38,7 @@ Vue.component('query', {
         return this.get_sellers().length;
       },
       thumbnail: function(): string {
-        let result = this.query.results[0];
+        let result = this.results[0];
   
         if (result) return result.thumbnail;
   
@@ -41,12 +48,20 @@ Vue.component('query', {
     methods: {
       remove_query: function() {
         vue.queries = vue.queries.filter(e => e.id != this.id);
+
+        vue.calculate_matching_sellers();
       },
       filter_query: function() {
-        vue.ui_filteringQuery = this.query;
+        vue.filteringQuery = this.query;
       },
       get_sellers: function() {
-        return vue.get_sellers(this.query);
+        return this.results.reduce((sellers: string[], result: SearchResult) => {
+          if (!sellers.includes(result.sellerId)) {
+            sellers.push(result.sellerId);
+          }
+  
+          return sellers;
+        }, []);
       }
     }
   });

@@ -1,10 +1,10 @@
 declare class Vue {
     id: string;
     queries: Query[];
-    ui_filteringQuery: Query;
+    filteringQuery: Query;
 
     get_sellers(query: Query);
-    sort_results_byPrice(query: Query): SearchResult[];
+    sort_results_byPrice(results: SearchResult[]): SearchResult[];
 
     constructor({ el, data, computed, methods }: { el: string; data: any; computed: any; methods: any; });
 

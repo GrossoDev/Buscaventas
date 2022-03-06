@@ -3,6 +3,7 @@ class Query {
     title: string;
     results: SearchResult[];
     loaded: boolean = false;
+    filter: QueryFilter = new QueryFilter();
 
     private static currentId: number = 0;
 
