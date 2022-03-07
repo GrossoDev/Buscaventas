@@ -24,6 +24,10 @@ Vue.component('result', {
       price: {
         type: Number,
         required: true
+      },
+      link: {
+        type: String,
+        requires: true
       }
     },
     methods: {
