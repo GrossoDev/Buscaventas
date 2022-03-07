@@ -37,16 +37,30 @@ var QueryFilter = /** @class */ (function () {
         this.doesntContain = "";
         this.includeNew = true;
         this.includeUsed = true;
+        this.minPrice = 0;
+        this.maxPrice = 0;
     }
     QueryFilter.checkResult = function (filter, result) {
         return QueryFilter.checkCondition(result.isNew, filter.includeNew, filter.includeUsed)
-            && (filter.contains.length ? QueryFilter.checkContainsAny(result.title, filter.contains) : true)
-            && (filter.doesntContain.length ? !QueryFilter.checkContainsAny(result.title, filter.doesntContain) : true);
+            && (filter.contains.length ? QueryFilter.checkContainsAll(result.title, filter.contains) : true)
+            && (filter.doesntContain.length ? !QueryFilter.checkContainsAny(result.title, filter.doesntContain) : true)
+            && QueryFilter.checkPriceRange(result.price, filter.minPrice, filter.maxPrice);
+    };
+    QueryFilter.checkPriceRange = function (price, minPrice, maxPrice) {
+        return price >= minPrice && (maxPrice ? price <= maxPrice : true);
+    };
+    QueryFilter.checkContainsAll = function (resultTitle, wordsToInclude) {
+        for (var _i = 0, _a = wordsToInclude.toLowerCase().split(" "); _i < _a.length; _i++) {
+            var word = _a[_i];
+            if (!resultTitle.toLowerCase().includes(word))
+                return false;
+        }
+        return true;
     };
     QueryFilter.checkContainsAny = function (resultTitle, wordsToInclude) {
-        for (var _i = 0, _a = wordsToInclude.split(" "); _i < _a.length; _i++) {
+        for (var _i = 0, _a = wordsToInclude.toLowerCase().split(" "); _i < _a.length; _i++) {
             var word = _a[_i];
-            if (resultTitle.toLowerCase().includes(word.toLowerCase()))
+            if (resultTitle.toLowerCase().includes(word))
                 return true;
         }
         return false;
