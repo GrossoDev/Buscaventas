@@ -1,9 +1,9 @@
 import axios from 'axios';
 import uuid from 'react-uuid';
 
-const site = 'MLA'; // TODO: MLA is for MercadoLibre Argentina. Let the user choose.
+const site = 'MLA'; // TODO: MLA is for MercadoLibre Argentina. Let the user choose another country.
 const PAGING = 50; // The amount of results per request
-const LIMIT = 1000; // The maximum amount amount of results
+const LIMIT = 1000; // Maximum number of results. Hard limit by MercadoLibre
 
 // TODO: some sort of schema
 function parseResults(results) {
