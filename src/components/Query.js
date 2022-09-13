@@ -35,8 +35,7 @@ function Query({ query, onFilter, onRemove }) {
         <p>{query.title}</p>
         <p>
           {query.results.length}
-          {' '}
-          {query.results.length === 1 ? 'vendedor' : 'vendedores'}
+          {query.results.length === 1 ? ' resultado' : ' resultados'}
         </p>
       </div>
 
