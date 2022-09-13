@@ -26,7 +26,6 @@ function Query({ query, onFilter, onRemove }) {
   }
 
   const { thumbnail, price: minimumPrice } = query.results[0];
-  const freeShipping = query.results.find((result) => result.freeShipping);
 
   return (
     <div style={style}>
@@ -47,7 +46,6 @@ function Query({ query, onFilter, onRemove }) {
           {' '}
           {minimumPrice}
         </p>
-        {freeShipping ? <p>Envío gratis</p> : <p>Envío pago</p>}
       </div>
 
       <button type="button" onClick={() => onFilter(query.id)}>Filtrar</button>
