@@ -7,7 +7,27 @@ function Query({ query, onFilter, onRemove }) {
     alignItems: 'center'
   };
 
-  if (!query.results) {
+  // TODO: join all the possibl renders
+  if (query.isPlaceholder) {
+    return (
+      <div style={style}>
+        <img src="" alt="" />
+
+        <div>
+          <p>
+            {query.title}
+          </p>
+          <p>
+            Cargando...
+          </p>
+        </div>
+
+        <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
+      </div>
+    );
+  }
+
+  if (!query.results?.length) {
     return (
       <div style={style}>
         <img src="" alt="" />
@@ -20,7 +40,7 @@ function Query({ query, onFilter, onRemove }) {
           </p>
         </div>
 
-        <button type="button">Quitar búsqueda</button>
+        <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
       </div>
     );
   }

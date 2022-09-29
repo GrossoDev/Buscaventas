@@ -19,14 +19,26 @@ function App() {
       return;
     }
 
-    MercadoLibre.search(queryText)
-      .then((query) => setQueries(queries.concat(query)));
+    const placeholderQuery = MercadoLibre.search(queryText);
+    setQueries(queries.concat(placeholderQuery));
+
+    placeholderQuery.actualQuery.then(
+      (query) => setQueries(
+        (currentQueries) => currentQueries
+          .filter((q) => q.id !== placeholderQuery.id)
+          .concat(query)
+      )
+    );
   };
 
-  const handleFilterQuery = (queryId) => console.log('Filtering query', queryId);
+  const handleFilterQuery = (id) => console.log('Filtering query', id);
 
-  const handleRemoveQuery = (queryId) => {
-    setQueries(queries.filter((query) => query.id !== queryId));
+  const handleRemoveQuery = (id) => {
+    const query = queries.find((q) => q.id === id);
+
+    if (query.isPlaceholder) query.cancel();
+
+    setQueries(queries.filter((q) => query !== q));
   };
 
   return (

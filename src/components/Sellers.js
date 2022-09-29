@@ -2,13 +2,15 @@ import React from 'react';
 import Seller from './Seller';
 
 function Sellers({ queries }) {
-  if (queries.length < 2) {
+  const queriesReady = queries.filter((query) => !query.isPlaceholder);
+
+  if (queriesReady.length < 2) {
     return <div />;
   }
 
   // Extract sellers from query.result.seller
   // Filter unique sellers
-  const sellers = queries
+  const sellers = queriesReady
     .reduce((acc, query) => acc.concat(query.results.map((result) => result.seller)), [])
     .filter((seller, index, array) => array.findIndex((value) => value.id === seller.id) === index);
 
@@ -17,7 +19,7 @@ function Sellers({ queries }) {
   const resultsBySeller = sellers.map((seller) => (
     {
       seller,
-      results: queries
+      results: queriesReady
         .map((query) => query.results.find((result) => result.seller.id === seller.id))
     }
   )).filter(({ results }) => results.every((v) => v));

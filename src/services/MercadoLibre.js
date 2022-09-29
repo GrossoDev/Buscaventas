@@ -27,24 +27,39 @@ function parseResults(results) {
 function search(queryText, max) {
   const maxResults = max || 50;
   const promises = [];
+  const queryId = uuid();
+  const controller = new AbortController();
 
   // Make a promise for each range of requests
   for (let offset = 0; offset < maxResults && offset < LIMIT; offset += PAGING) {
     const url = `https://api.mercadolibre.com/sites/${site}/search?q=${queryText}&offset=${offset}`;
 
-    promises.push(Promise.resolve(axios.get(url)
-      .then(({ data }) => parseResults(data.results))));
+    promises.push(
+      Promise.resolve(
+        axios.get(url, { signal: controller.signal })
+          .then(({ data }) => parseResults(data.results))
+      )
+    );
   }
 
   const query = Promise.all(promises)
     .then((results) => results.flat())
     .then((results) => ({
-      id: uuid(),
+      id: queryId,
       title: queryText,
       results
     }));
 
-  return query;
+  const placeholderQuery = {
+    id: queryId,
+    title: queryText,
+    results: [],
+    isPlaceholder: true,
+    actualQuery: query,
+    cancel: controller.abort.bind(controller)
+  };
+
+  return placeholderQuery;
 }
 
 export default { search };
