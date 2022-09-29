@@ -19,7 +19,7 @@ function App() {
       return;
     }
 
-    const placeholderQuery = MercadoLibre.search(queryText);
+    const placeholderQuery = MercadoLibre.search(queryText, 300);
     setQueries(queries.concat(placeholderQuery));
 
     placeholderQuery.actualQuery.then(
