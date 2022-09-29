@@ -7,9 +7,19 @@ import MercadoLibre from './services/MercadoLibre';
 function App() {
   const [queries, setQueries] = useState([]);
 
-  const handleSearch = (queryText) => {
-    MercadoLibre
-      .search(queryText)
+  const handleSearch = (text) => {
+    const queryText = text.trim().toUpperCase();
+
+    if (queryText === '') {
+      console.warn('The query title was empty.');
+      return;
+    }
+    if (queries.find((query) => query.title === queryText)) {
+      console.warn("There's already a query with the title:", queryText);
+      return;
+    }
+
+    MercadoLibre.search(queryText)
       .then((query) => setQueries(queries.concat(query)));
   };
 
