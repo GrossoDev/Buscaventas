@@ -12,7 +12,7 @@ function parseResults(results) {
     title: result.title,
     thumbnail: result.thumbnail,
     link: result.permalink,
-    price: result.price,
+    price: Math.round(result.price),
     freeShipping: result.shipping.free_shipping,
     condition: result.condition,
     seller: {
