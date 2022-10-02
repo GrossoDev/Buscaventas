@@ -3,9 +3,11 @@ import SearchBar from './components/SearchBar';
 import Queries from './components/Queries';
 import Sellers from './components/Sellers';
 import MercadoLibre from './services/MercadoLibre';
+import FilterModal from './components/FilterModal';
 
 function App() {
   const [queries, setQueries] = useState([]);
+  const [filteringQuery, setFilteringQuery] = useState();
 
   const handleSearch = (text) => {
     const queryText = text.trim().toUpperCase();
@@ -31,7 +33,31 @@ function App() {
     );
   };
 
-  const handleFilterQuery = (id) => console.log('Filtering query', id);
+  const handleFilterApply = (contains, doesntContain, minPrice, maxPrice, condition) => {
+    let filteredResults = filteringQuery.results;
+    if (contains) {
+      filteredResults = filteredResults
+        .filter((result) => contains.every((val) => result.title.includes(val)));
+    }
+    if (doesntContain) {
+      filteredResults = filteredResults
+        .filter((result) => doesntContain.every((val) => !result.title.includes(val)));
+    }
+    if (minPrice) {
+      filteredResults = filteredResults.filter((result) => result.price >= minPrice);
+    }
+    if (maxPrice) {
+      filteredResults = filteredResults.filter((result) => result.price <= maxPrice);
+    }
+    if (condition) {
+      filteredResults = filteredResults.filter((result) => result.condition === condition);
+    }
+
+    const filteredQuery = { ...filteringQuery, filteredResults };
+
+    setQueries(queries.map((query) => (query.id !== filteredQuery.id ? query : filteredQuery)));
+    setFilteringQuery(null);
+  };
 
   const handleRemoveQuery = (id) => {
     const query = queries.find((q) => q.id === id);
@@ -40,6 +66,9 @@ function App() {
 
     setQueries(queries.filter((q) => query !== q));
   };
+
+  const handleFilterQuery = (id) => setFilteringQuery(queries.find((query) => query.id === id));
+  const handleFilterCancel = () => setFilteringQuery(null);
 
   return (
     <div className="App">
@@ -50,6 +79,17 @@ function App() {
       <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
 
       <Sellers queries={queries} />
+
+      {
+        filteringQuery
+        && (
+          <FilterModal
+            query={filteringQuery}
+            onApply={handleFilterApply}
+            onCancel={handleFilterCancel}
+          />
+        )
+      }
     </div>
   );
 }

@@ -27,8 +27,20 @@ function parseResults(results) {
 function search(queryText, max) {
   const maxResults = max || 50;
   const promises = [];
-  const queryId = uuid();
   const controller = new AbortController();
+  const defaultQuery = {
+    id: uuid(),
+    title: queryText,
+    results: [],
+    filteredResults: [],
+    filters: {
+      contains: null,
+      doesntContain: null,
+      minPrice: null,
+      maxPrice: null,
+      condition: 'new'
+    }
+  };
 
   // Make a promise for each range of requests
   for (let offset = 0; offset < maxResults && offset < LIMIT; offset += PAGING) {
@@ -43,17 +55,15 @@ function search(queryText, max) {
   }
 
   const query = Promise.all(promises)
-    .then((results) => results.flat())
+    .then((results) => results.flat().sort((a, b) => a.price - b.price))
     .then((results) => ({
-      id: queryId,
-      title: queryText,
-      results
+      ...defaultQuery,
+      results,
+      filteredResults: results
     }));
 
   const placeholderQuery = {
-    id: queryId,
-    title: queryText,
-    results: [],
+    ...defaultQuery,
     isPlaceholder: true,
     actualQuery: query,
     cancel: controller.abort.bind(controller)

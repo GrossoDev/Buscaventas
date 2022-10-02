@@ -11,7 +11,7 @@ function Sellers({ queries }) {
   // Extract sellers from query.result.seller
   // Filter unique sellers
   const sellers = queriesReady
-    .reduce((acc, query) => acc.concat(query.results.map((result) => result.seller)), [])
+    .reduce((acc, query) => acc.concat(query.filteredResults.map((result) => result.seller)), [])
     .filter((seller, index, array) => array.findIndex((value) => value.id === seller.id) === index);
 
   // Create seller-results pairs
@@ -20,7 +20,7 @@ function Sellers({ queries }) {
     {
       seller,
       results: queriesReady
-        .map((query) => query.results.find((result) => result.seller.id === seller.id))
+        .map((query) => query.filteredResults.find((result) => result.seller.id === seller.id))
     }
   )).filter(({ results }) => results.every((v) => v));
 

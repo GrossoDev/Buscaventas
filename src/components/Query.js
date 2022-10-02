@@ -27,7 +27,7 @@ function Query({ query, onFilter, onRemove }) {
     );
   }
 
-  if (!query.results?.length) {
+  if (!query.filteredResults?.length) {
     return (
       <div style={style}>
         <img src="" alt="" />
@@ -40,12 +40,13 @@ function Query({ query, onFilter, onRemove }) {
           </p>
         </div>
 
+        <button type="button" onClick={() => onFilter(query.id)}>Filtrar</button>
         <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
       </div>
     );
   }
 
-  const { thumbnail, price: minimumPrice } = query.results[0];
+  const { thumbnail, price: minimumPrice } = query.filteredResults[0];
 
   return (
     <div style={style}>
@@ -54,8 +55,8 @@ function Query({ query, onFilter, onRemove }) {
       <div>
         <p>{query.title}</p>
         <p>
-          {query.results.length}
-          {query.results.length === 1 ? ' resultado' : ' resultados'}
+          {query.filteredResults.length}
+          {query.filteredResults.length === 1 ? ' resultado' : ' resultados'}
         </p>
       </div>
 
