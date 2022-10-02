@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
-function Result({ title, thumbnail, link }) {
-  return (
-    <div>
-      <img src={thumbnail} alt="" />
+// function Result({ title, thumbnail, link }) {
+//   return (
+//     <div>
+//       <img src={thumbnail} alt="" />
 
-      <a href={link} target="_blank" rel="noopener noreferrer">
-        <p>{title}</p>
-      </a>
-    </div>
-  );
-}
+//       <a href={link} target="_blank" rel="noopener noreferrer">
+//         <p>{title}</p>
+//       </a>
+//     </div>
+//   );
+// }
 
 function FilterModal({ query, onApply, onCancel }) {
   const handleSubmit = (event) => {
@@ -37,16 +37,16 @@ function FilterModal({ query, onApply, onCancel }) {
     backgroundColor: 'white'
   };
 
-  const resultsBoxStyle = {
-    overflow: 'scroll',
-    height: '80%'
-  };
+  // const resultsBoxStyle = {
+  //   overflow: 'scroll',
+  //   height: '80%'
+  // };
 
   return (
     <div style={modalStyle}>
       <p>{query.title}</p>
 
-      <div style={resultsBoxStyle}>
+      {/* <div style={resultsBoxStyle}>
         {
           query.results.map((result) => (
             <Result
@@ -57,7 +57,7 @@ function FilterModal({ query, onApply, onCancel }) {
             />
           ))
         }
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit}>
         <label>
@@ -80,7 +80,7 @@ function FilterModal({ query, onApply, onCancel }) {
           Condición:
           <select name="condition" defaultValue={query.filters.condition}>
             <option value="new">Nuevo</option>
-            <option value="used" selected>Usado</option>
+            <option value="used">Usado</option>
             <option value="">Cualquiera</option>
           </select>
         </label>
