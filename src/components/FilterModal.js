@@ -41,8 +41,7 @@ function FilterModal({ query, onApply, onCancel }) {
   //   overflow: 'scroll',
   //   height: '80%'
   // };
-  // eslint-disable-next-line no-debugger
-  debugger;
+
   return (
     <div style={modalStyle}>
       <p>{query.title}</p>
@@ -63,23 +62,23 @@ function FilterModal({ query, onApply, onCancel }) {
       <form onSubmit={handleSubmit}>
         <label>
           Contiene:
-          <input name="contain" type="text" />
+          <input name="contain" type="text" defaultValue={query.filters.contain ? String(query.filters.contain) : ''} />
         </label>
         <label>
           No contiene:
-          <input name="dontContain" type="text" />
+          <input name="dontContain" type="text" defaultValue={query.filters.dontContain ? String(query.filters.dontContain) : ''} />
         </label>
         <label>
           Precio mínimo:
-          <input name="minPrice" type="number" />
+          <input name="minPrice" type="number" defaultValue={query.filters.minPrice} />
         </label>
         <label>
           Precio máximo:
-          <input name="maxPrice" type="number" />
+          <input name="maxPrice" type="number" defaultValue={query.filters.maxPrice} />
         </label>
         <label>
           Condición:
-          <select name="condition">
+          <select name="condition" defaultValue={query.filters.condition}>
             <option value="new">Nuevo</option>
             <option value="used">Usado</option>
             <option value="">Cualquiera</option>
