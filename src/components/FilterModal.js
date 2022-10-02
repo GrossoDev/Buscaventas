@@ -62,23 +62,23 @@ function FilterModal({ query, onApply, onCancel }) {
       <form onSubmit={handleSubmit}>
         <label>
           Contiene:
-          <input name="contains" type="text" defaultValue={query.filters.contains ? String(query.filters.contains) : ''} />
+          <input name="contains" type="text" />
         </label>
         <label>
           No contiene:
-          <input name="doesntContain" type="text" defaultValue={query.filters.doesntContain ? String(query.filters.doesntContain) : ''} />
+          <input name="doesntContain" type="text" />
         </label>
         <label>
           Precio mínimo:
-          <input name="minPrice" type="number" defaultValue={query.filters.minPrice} />
+          <input name="minPrice" type="number" />
         </label>
         <label>
           Precio máximo:
-          <input name="maxPrice" type="number" defaultValue={query.filters.maxPrice} />
+          <input name="maxPrice" type="number" />
         </label>
         <label>
           Condición:
-          <select name="condition" defaultValue={query.filters.condition}>
+          <select name="condition">
             <option value="new">Nuevo</option>
             <option value="used">Usado</option>
             <option value="">Cualquiera</option>
