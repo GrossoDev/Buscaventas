@@ -38,11 +38,15 @@ function App() {
 
     if (contain) {
       filteredResults = filteredResults
-        .filter((result) => contain.every((val) => result.title.toUpperCase().includes(val)));
+        .filter((result) => contain.every(
+          (val) => result.title.toUpperCase().includes(val.toUpperCase())
+        ));
     }
     if (dontContain) {
       filteredResults = filteredResults
-        .filter((result) => dontContain.every((val) => !result.title.toUpperCase().includes(val)));
+        .filter((result) => dontContain.every(
+          (val) => !result.title.toUpperCase().includes(val.toUpperCase())
+        ));
     }
     if (minPrice) {
       filteredResults = filteredResults.filter((result) => result.price >= minPrice);
