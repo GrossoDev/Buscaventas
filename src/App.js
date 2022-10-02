@@ -33,39 +33,8 @@ function App() {
     );
   };
 
-  const handleFilterApply = (contain, dontContain, minPrice, maxPrice, condition) => {
-    let filteredResults = filteringQuery.results;
-
-    if (contain) {
-      filteredResults = filteredResults
-        .filter((result) => contain.every(
-          (val) => result.title.toUpperCase().includes(val.toUpperCase())
-        ));
-    }
-    if (dontContain) {
-      filteredResults = filteredResults
-        .filter((result) => dontContain.every(
-          (val) => !result.title.toUpperCase().includes(val.toUpperCase())
-        ));
-    }
-    if (minPrice) {
-      filteredResults = filteredResults.filter((result) => result.price >= minPrice);
-    }
-    if (maxPrice) {
-      filteredResults = filteredResults.filter((result) => result.price <= maxPrice);
-    }
-    if (condition) {
-      filteredResults = filteredResults.filter((result) => result.condition === condition);
-    }
-
-    const filteredQuery = { ...filteringQuery, filteredResults };
-    filteredQuery.filters = {
-      contain,
-      dontContain,
-      minPrice,
-      maxPrice,
-      condition
-    };
+  const handleFilterApply = (filteredResults, filters) => {
+    const filteredQuery = { ...filteringQuery, filteredResults, filters };
 
     setQueries(queries.map((query) => (query.id !== filteredQuery.id ? query : filteredQuery)));
     setFilteringQuery(null);

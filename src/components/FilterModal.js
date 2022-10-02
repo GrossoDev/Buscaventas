@@ -1,30 +1,76 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useState } from 'react';
 
-// function Result({ title, thumbnail, link }) {
-//   return (
-//     <div>
-//       <img src={thumbnail} alt="" />
+function filterResults(results, filters) {
+  let filteredResults = results;
 
-//       <a href={link} target="_blank" rel="noopener noreferrer">
-//         <p>{title}</p>
-//       </a>
-//     </div>
-//   );
-// }
+  if (filters.contain) {
+    filteredResults = filteredResults
+      .filter((result) => filters.contain.every(
+        (val) => result.title.toUpperCase().includes(val.toUpperCase())
+      ));
+  }
+  if (filters.dontContain) {
+    filteredResults = filteredResults
+      .filter((result) => filters.dontContain.every(
+        (val) => !result.title.toUpperCase().includes(val.toUpperCase())
+      ));
+  }
+  if (filters.minPrice) {
+    filteredResults = filteredResults.filter((result) => result.price >= filters.minPrice);
+  }
+  if (filters.maxPrice) {
+    filteredResults = filteredResults.filter((result) => result.price <= filters.maxPrice);
+  }
+  if (filters.condition) {
+    filteredResults = filteredResults.filter((result) => result.condition === filters.condition);
+  }
+
+  return filteredResults;
+}
+
+function Result({ title, thumbnail, link }) {
+  return (
+    <div>
+      <img src={thumbnail} alt="" />
+
+      <a href={link} target="_blank" rel="noopener noreferrer">
+        <p>{title}</p>
+      </a>
+    </div>
+  );
+}
 
 function FilterModal({ query, onApply, onCancel }) {
+  const [filters, setFilters] = useState(query.filters);
+  const filteredResults = filterResults(query.results, filters);
+
+  const changeContain = ({ target }) => {
+    let contain = null;
+
+    if (target.value) contain = target.value.split(' ');
+
+    setFilters({ ...filters, contain });
+  };
+
+  const changeDontContain = ({ target }) => {
+    let dontContain = null;
+
+    if (target.value) dontContain = target.value.split(' ');
+
+    setFilters({ ...filters, dontContain });
+  };
+
+  const changeMinPrice = ({ target }) => setFilters({ ...filters, minPrice: Number(target.value) });
+
+  const changeMaxPrice = ({ target }) => setFilters({ ...filters, maxPrice: Number(target.value) });
+
+  const changeCondition = ({ target }) => setFilters({ ...filters, condition: target.value });
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const { elements } = event.target;
-    const contain = elements.contain.value ? elements.contain.value.split(' ') : null;
-    const dontContain = elements.dontContain.value ? elements.dontContain.value.split(' ') : null;
-    const minPrice = Number(elements.minPrice.value);
-    const maxPrice = Number(elements.maxPrice.value);
-    const condition = elements.condition.value;
-
-    onApply(contain, dontContain, minPrice, maxPrice, condition);
+    onApply(filteredResults, filters);
   };
 
   const modalStyle = {
@@ -37,18 +83,19 @@ function FilterModal({ query, onApply, onCancel }) {
     backgroundColor: 'white'
   };
 
-  // const resultsBoxStyle = {
-  //   overflow: 'scroll',
-  //   height: '80%'
-  // };
+  const resultsBoxStyle = {
+    overflow: 'scroll',
+    height: '80%'
+  };
 
   return (
     <div style={modalStyle}>
       <p>{query.title}</p>
 
-      {/* <div style={resultsBoxStyle}>
+      <div style={resultsBoxStyle}>
         {
-          query.results.map((result) => (
+          // TODO: Lazy loading
+          filteredResults.map((result) => (
             <Result
               key={result.id}
               title={result.title}
@@ -57,28 +104,28 @@ function FilterModal({ query, onApply, onCancel }) {
             />
           ))
         }
-      </div> */}
+      </div>
 
       <form onSubmit={handleSubmit}>
         <label>
           Contiene:
-          <input name="contain" type="text" defaultValue={query.filters.contain ? String(query.filters.contain) : ''} />
+          <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain) : ''} />
         </label>
         <label>
           No contiene:
-          <input name="dontContain" type="text" defaultValue={query.filters.dontContain ? String(query.filters.dontContain) : ''} />
+          <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain) : ''} />
         </label>
         <label>
           Precio mínimo:
-          <input name="minPrice" type="number" defaultValue={query.filters.minPrice} />
+          <input name="minPrice" type="number" onChange={changeMinPrice} defaultValue={query.filters.minPrice} />
         </label>
         <label>
           Precio máximo:
-          <input name="maxPrice" type="number" defaultValue={query.filters.maxPrice} />
+          <input name="maxPrice" type="number" onChange={changeMaxPrice} defaultValue={query.filters.maxPrice} />
         </label>
         <label>
           Condición:
-          <select name="condition" defaultValue={query.filters.condition}>
+          <select name="condition" onChange={changeCondition} defaultValue={query.filters.condition}>
             <option value="new">Nuevo</option>
             <option value="used">Usado</option>
             <option value="">Cualquiera</option>
