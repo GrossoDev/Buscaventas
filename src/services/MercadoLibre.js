@@ -34,11 +34,11 @@ function search(queryText, max) {
     results: [],
     filteredResults: [],
     filters: {
-      contains: null,
-      doesntContain: null,
-      minPrice: null,
-      maxPrice: null,
-      condition: 'new'
+      contain: null,
+      dontContain: null,
+      minPrice: 0,
+      maxPrice: 0,
+      condition: ''
     }
   };
 

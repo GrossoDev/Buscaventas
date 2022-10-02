@@ -33,15 +33,16 @@ function App() {
     );
   };
 
-  const handleFilterApply = (contains, doesntContain, minPrice, maxPrice, condition) => {
+  const handleFilterApply = (contain, dontContain, minPrice, maxPrice, condition) => {
     let filteredResults = filteringQuery.results;
-    if (contains) {
+
+    if (contain) {
       filteredResults = filteredResults
-        .filter((result) => contains.every((val) => result.title.includes(val)));
+        .filter((result) => contain.every((val) => result.title.toUpperCase().includes(val)));
     }
-    if (doesntContain) {
+    if (dontContain) {
       filteredResults = filteredResults
-        .filter((result) => doesntContain.every((val) => !result.title.includes(val)));
+        .filter((result) => dontContain.every((val) => !result.title.toUpperCase().includes(val)));
     }
     if (minPrice) {
       filteredResults = filteredResults.filter((result) => result.price >= minPrice);
@@ -54,6 +55,13 @@ function App() {
     }
 
     const filteredQuery = { ...filteringQuery, filteredResults };
+    filteredQuery.filters = {
+      contain,
+      dontContain,
+      minPrice,
+      maxPrice,
+      condition
+    };
 
     setQueries(queries.map((query) => (query.id !== filteredQuery.id ? query : filteredQuery)));
     setFilteringQuery(null);

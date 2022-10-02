@@ -18,13 +18,13 @@ function FilterModal({ query, onApply, onCancel }) {
     event.preventDefault();
 
     const { elements } = event.target;
-    const contains = elements.contains.value ? elements.contains.value.split(' ') : null;
-    const doesntContain = elements.doesntContain.value ? elements.doesntContain.value.split(' ') : null;
-    const minPrice = elements.minPrice.value;
-    const maxPrice = elements.maxPrice.value;
+    const contain = elements.contain.value ? elements.contain.value.split(' ') : null;
+    const dontContain = elements.dontContain.value ? elements.dontContain.value.split(' ') : null;
+    const minPrice = Number(elements.minPrice.value);
+    const maxPrice = Number(elements.maxPrice.value);
     const condition = elements.condition.value;
 
-    onApply(contains, doesntContain, minPrice, maxPrice, condition);
+    onApply(contain, dontContain, minPrice, maxPrice, condition);
   };
 
   const modalStyle = {
@@ -41,7 +41,8 @@ function FilterModal({ query, onApply, onCancel }) {
   //   overflow: 'scroll',
   //   height: '80%'
   // };
-
+  // eslint-disable-next-line no-debugger
+  debugger;
   return (
     <div style={modalStyle}>
       <p>{query.title}</p>
@@ -62,11 +63,11 @@ function FilterModal({ query, onApply, onCancel }) {
       <form onSubmit={handleSubmit}>
         <label>
           Contiene:
-          <input name="contains" type="text" />
+          <input name="contain" type="text" />
         </label>
         <label>
           No contiene:
-          <input name="doesntContain" type="text" />
+          <input name="dontContain" type="text" />
         </label>
         <label>
           Precio mínimo:
