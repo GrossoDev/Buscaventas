@@ -7,7 +7,7 @@ function Query({ query, onFilter, onRemove }) {
     alignItems: 'center'
   };
 
-  // TODO: join all the possibl renders
+  // TODO: join all the possible renders
   if (query.isPlaceholder) {
     return (
       <div style={style}>
@@ -22,7 +22,7 @@ function Query({ query, onFilter, onRemove }) {
           </p>
         </div>
 
-        <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
+        <button type="button" onClick={() => onRemove(query.id)}>Cancelar búsqueda</button>
       </div>
     );
   }
