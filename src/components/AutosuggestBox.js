@@ -1,22 +1,44 @@
 import React from 'react';
 import Strings from '../helpers/strings';
 
-function AutosuggestBox({ queryText, suggestions, suggestionClick }) {
+function AutosuggestBox({
+  queryText,
+  suggestions,
+  suggestionClick,
+  selectedIndex
+}) {
   return (
-    <div className="autocompleteBox">
+    <div className={`container dropdown-menu position-absolute start-0 end-0 ${suggestions.length !== 0 ? 'show' : ''}`}>
       {
         !Strings.isEmptyOrWhitespace(queryText) && (
-        <ul>
-            {
-              suggestions.map((suggestion) => (
-              // eslint-disable-next-line max-len
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-                <li onClick={() => suggestionClick(suggestion.q)}>
-                  {suggestion.q}
-                </li>
-              ))
-            }
-        </ul>
+          suggestions.map((suggestion, index) => {
+            const beginning = suggestion.q.substring(0, suggestion.match_start);
+            const midsection = suggestion.q.substring(suggestion.match_start, suggestion.match_end);
+            const ending = suggestion.q.substring(suggestion.match_end);
+
+            return (
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+              <a
+                className={`dropdown-item py-2 ${index === selectedIndex ? 'active' : ''}`}
+                href="#"
+                onClick={() => suggestionClick(suggestion.q)}
+                key={suggestion.q}
+              >
+                <i className="bi bi-search me-2" />
+                {
+                beginning.length > 0
+                  ? <strong>{beginning}</strong>
+                  : null
+                }
+                {midsection}
+                {
+                ending.length > 0
+                  ? <strong>{ending}</strong>
+                  : null
+                }
+              </a>
+            );
+          })
         )
       }
     </div>
