@@ -21,7 +21,7 @@ function AutosuggestBox({
               <a
                 className={`dropdown-item py-2 ${index === selectedIndex ? 'active' : ''}`}
                 href="#"
-                onClick={() => suggestionClick(suggestion.q)}
+                onMouseDown={() => suggestionClick(suggestion.q)}
                 key={suggestion.q}
               >
                 <i className="bi bi-search me-2" />
