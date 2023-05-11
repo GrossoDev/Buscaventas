@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import AutosuggestBox from './AutosuggestBox';
 import MercadoLibre from '../services/MercadoLibre';
 import Strings from '../helpers/strings';
 
 function SearchBar({ onSearch }) {
   const [queryText, setQueryText] = useState('');
-  const [autoResults, setAutoResults] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,8 +16,7 @@ function SearchBar({ onSearch }) {
     const text = e.target.value;
 
     if (!Strings.isEmptyOrWhitespace(text)) {
-      MercadoLibre.autosuggest(text).promise
-        .then((suggestions) => setAutoResults(suggestions));
+      MercadoLibre.autosuggest(text).promise.then(setSuggestions);
     }
 
     return setQueryText(text);
@@ -29,28 +29,16 @@ function SearchBar({ onSearch }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={queryText} onChange={inputChange} />
-        <button type="submit">Buscar</button>
-
-        <div className="autocompleteBox">
-          {
-            !Strings.isEmptyOrWhitespace(queryText) && (
-              <ul>
-                {
-                  autoResults.map((result) => (
-                    // eslint-disable-next-line max-len
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-                    <li onClick={() => suggestionClick(result.q)}>
-                      {result.q}
-                    </li>
-                  ))
-                }
-              </ul>
-            )
-          }
-        </div>
+      <form className="container input-group mb-3" onSubmit={handleSubmit}>
+        <input className="form-control" type="text" value={queryText} onChange={inputChange} />
+        <button className="btn btn-primary" type="submit">Buscar</button>
       </form>
+
+      <AutosuggestBox
+        queryText={queryText}
+        suggestions={suggestions}
+        suggestionClick={suggestionClick}
+      />
     </div>
   );
 }

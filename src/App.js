@@ -54,24 +54,26 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Buscaventas</h1>
+      <main>
+        <h1 className="display-1 d-flex mt-5 justify-content-center">Buscaventas</h1>
 
-      <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={handleSearch} />
 
-      <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
+        <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
 
-      <Sellers queries={queries} />
+        <Sellers queries={queries} />
 
-      {
-        filteringQuery
-        && (
-          <FilterModal
-            query={filteringQuery}
-            onApply={handleFilterApply}
-            onCancel={handleFilterCancel}
-          />
-        )
-      }
+        {
+          filteringQuery
+          && (
+            <FilterModal
+              query={filteringQuery}
+              onApply={handleFilterApply}
+              onCancel={handleFilterCancel}
+            />
+          )
+        }
+      </main>
     </div>
   );
 }
