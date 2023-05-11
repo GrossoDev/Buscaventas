@@ -72,4 +72,16 @@ function search(queryText, max) {
   return placeholderQuery;
 }
 
-export default { search };
+function autosuggest(queryText) {
+  const count = 6;
+  const url = `https://http2.mlstatic.com/resources/sites/${site}/autosuggest?limit=${count}&q=${queryText}`;
+
+  const controller = new AbortController();
+  const promise = axios
+    .get(url, { signal: controller.signal })
+    .then(({ data }) => data.suggested_queries);
+
+  return { promise, cancel: controller.abort.bind(controller) };
+}
+
+export default { search, autosuggest };
