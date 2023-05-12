@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import uuid from 'react-uuid';
+import Strings from '../helpers/strings';
 import Result from './Result';
+
+function contains(result, text) {
+  if (Strings.isEmptyOrWhitespace(text)) return false;
+  return result.includes(text);
+}
 
 function filterResults(results, filters) {
   let filteredResults = results;
@@ -9,13 +15,13 @@ function filterResults(results, filters) {
   if (filters.contain) {
     filteredResults = filteredResults
       .filter((result) => filters.contain.every(
-        (val) => result.title.toUpperCase().includes(val.toUpperCase())
+        (text) => contains(result.title.toUpperCase(), text.toUpperCase())
       ));
   }
   if (filters.dontContain) {
     filteredResults = filteredResults
       .filter((result) => filters.dontContain.every(
-        (val) => !result.title.toUpperCase().includes(val.toUpperCase())
+        (text) => !contains(result.title.toUpperCase(), text.toUpperCase())
       ));
   }
   if (filters.minPrice) {
@@ -35,7 +41,7 @@ function FilterModal({ filteringQuery, onApply }) {
   const query = filteringQuery || { filters: {}, results: [] };
 
   const [filters, setFilters] = useState(query.filters);
-  const filteredResults = filterResults(query.results, filters);
+  const filteredResults = filterResults(query.results, filters).slice(0, 100);
 
   useEffect(() => {
     setFilters(query.filters);
