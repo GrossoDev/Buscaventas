@@ -109,11 +109,11 @@ function FilterModal({ query, onApply, onCancel }) {
       <form onSubmit={handleSubmit}>
         <label>
           Contiene:
-          <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain) : ''} />
+          <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain).replaceAll(',', ' ') : ''} />
         </label>
         <label>
           No contiene:
-          <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain) : ''} />
+          <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain).replaceAll(',', ' ') : ''} />
         </label>
         <label>
           Precio mínimo:
