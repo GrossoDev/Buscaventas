@@ -49,6 +49,14 @@ function SearchBar({ onSearch }) {
         setSuggestions([]);
         newIndex = -1;
       }
+    } else if (e.keyCode === 9) { // Tab = autocomplete input with current selection
+      if (isSelectionValid) {
+        setQueryText(suggestions[selectedIndex].q);
+        setSuggestions([]);
+        newIndex = -1;
+
+        e.preventDefault(); // Prevent loss of focus
+      }
     }
 
     if (newIndex < -1) newIndex = -1;
