@@ -44,7 +44,7 @@ function search(queryText, max) {
 
   // Make a promise for each range of requests
   for (let offset = 0; offset < maxResults && offset < LIMIT; offset += PAGING) {
-    const url = `https://api.mercadolibre.com/sites/${site}/search?q=${queryText}&offset=${offset}`;
+    const url = `https://api.mercadolibre.com/sites/${site}/search?q=${encodeURIComponent(queryText)}&offset=${offset}`;
 
     promises.push(
       Promise.resolve(
@@ -74,7 +74,7 @@ function search(queryText, max) {
 
 function autosuggest(queryText) {
   const count = 6;
-  const url = `https://http2.mlstatic.com/resources/sites/${site}/autosuggest?limit=${count}&q=${queryText}`;
+  const url = `https://http2.mlstatic.com/resources/sites/${site}/autosuggest?limit=${count}&q=${encodeURIComponent(queryText)}`;
 
   const controller = new AbortController();
   const promise = axios
