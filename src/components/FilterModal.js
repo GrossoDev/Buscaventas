@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import uuid from 'react-uuid';
 import Result from './Result';
 
 function filterResults(results, filters) {
@@ -35,6 +36,10 @@ function FilterModal({ filteringQuery, onApply }) {
 
   const [filters, setFilters] = useState(query.filters);
   const filteredResults = filterResults(query.results, filters);
+
+  useEffect(() => {
+    setFilters(query.filters);
+  }, [filteringQuery]);
 
   const changeContain = ({ target }) => {
     let contain = null;
@@ -78,7 +83,7 @@ function FilterModal({ filteringQuery, onApply }) {
               // TODO: Lazy loading
               filteredResults.map((result) => (
                 <Result
-                  key={result.id}
+                  key={uuid()}
                   title={result.title}
                   thumbnail={result.thumbnail}
                   link={result.link}
@@ -92,23 +97,23 @@ function FilterModal({ filteringQuery, onApply }) {
             <form onSubmit={handleSubmit}>
               <label>
                 Contiene:
-                <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain).replaceAll(',', ' ') : ''} />
+                <input name="contain" type="text" onChange={changeContain} value={filters.contain ? String(filters.contain).replaceAll(',', ' ') : ''} />
               </label>
               <label>
                 No contiene:
-                <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain).replaceAll(',', ' ') : ''} />
+                <input name="dontContain" type="text" onChange={changeDontContain} value={filters.dontContain ? String(filters.dontContain).replaceAll(',', ' ') : ''} />
               </label>
               <label>
                 Precio mínimo:
-                <input name="minPrice" type="number" onChange={changeMinPrice} defaultValue={query.filters.minPrice} />
+                <input name="minPrice" type="number" onChange={changeMinPrice} value={filters.minPrice} />
               </label>
               <label>
                 Precio máximo:
-                <input name="maxPrice" type="number" onChange={changeMaxPrice} defaultValue={query.filters.maxPrice} />
+                <input name="maxPrice" type="number" onChange={changeMaxPrice} value={filters.maxPrice} />
               </label>
               <label>
                 Condición:
-                <select name="condition" onChange={changeCondition} defaultValue={query.filters.condition}>
+                <select name="condition" onChange={changeCondition} value={filters.condition}>
                   <option value="new">Nuevo</option>
                   <option value="used">Usado</option>
                   <option value="">Cualquiera</option>

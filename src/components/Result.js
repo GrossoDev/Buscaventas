@@ -18,7 +18,7 @@ function Result({
           <span>{`$${price}`}</span>
         </div>
 
-        <div className="ms-3 d-flex align-items-center">
+        <div className="ms-3 me-3 d-flex align-items-center">
           <i className="bi bi-box-arrow-up-right" />
         </div>
       </a>

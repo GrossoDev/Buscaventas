@@ -8,7 +8,7 @@ const LIMIT = 1000; // Maximum number of results. Hard limit by MercadoLibre
 // TODO: some sort of schema
 function parseResults(results) {
   return results.reduce((arr, result) => arr.concat({
-    id: result.id,
+    id: uuid(), // ML's id is _somehow_ not unique
     title: result.title,
     thumbnail: result.thumbnail,
     link: result.permalink,
