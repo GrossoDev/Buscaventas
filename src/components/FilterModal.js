@@ -99,32 +99,47 @@ function FilterModal({ filteringQuery, onApply }) {
             }
           </div>
 
-          <form className="p-3 border-top container d-flex justify-content-evenly" onSubmit={handleSubmit}>
-            <label className="col-2">
-              Contiene:
-              <input className="form-control" placeholder="Debe decir..." name="contain" type="text" onChange={changeContain} value={filters.contain ? String(filters.contain).replaceAll(',', ' ') : ''} />
-            </label>
-            <label className="col-2">
-              No contiene:
-              <input className="form-control" placeholder="No debe decir..." name="dontContain" type="text" onChange={changeDontContain} value={filters.dontContain ? String(filters.dontContain).replaceAll(',', ' ') : ''} />
-            </label>
-            <label className="col-2">
-              Precio mínimo:
-              <input className="form-control" name="minPrice" type="number" min="0" onChange={changeMinPrice} value={filters.minPrice} />
-            </label>
-            <label className="col-2">
-              Precio máximo:
-              <input className="form-control" name="maxPrice" type="number" min="0" onChange={changeMaxPrice} value={filters.maxPrice} />
-            </label>
-            <label className="col-2">
-              Condición:
-              <select className="form-select" name="condition" onChange={changeCondition} value={filters.condition}>
-                <option value="new">Nuevo</option>
-                <option value="used">Usado</option>
-                <option value="">Cualquiera</option>
-              </select>
-            </label>
-          </form>
+          <div className="p-3 d-flex flex-column border-top">
+            <button type="button" className="d-lg-none btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters">
+              Mostrar filtros
+            </button>
+
+            <div id="offcanvasFilters" className="offcanvas-lg offcanvas-bottom h-auto">
+              <div className="offcanvas-header">
+                <h5 className="offcanvas-title">Filtros</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasFilters" aria-label="Cerrar" />
+              </div>
+
+              <div className="offcanvas-body mb-4 mb-lg-0">
+                <form className="container d-flex flex-column flex-lg-row justify-content-evenly" onSubmit={handleSubmit}>
+                  <label className="col-lg-2">
+                    Contiene:
+                    <input className="form-control" placeholder="Debe decir..." name="contain" type="text" onChange={changeContain} value={filters.contain ? String(filters.contain).replaceAll(',', ' ') : ''} />
+                  </label>
+                  <label className="col-lg-2">
+                    No contiene:
+                    <input className="form-control" placeholder="No debe decir..." name="dontContain" type="text" onChange={changeDontContain} value={filters.dontContain ? String(filters.dontContain).replaceAll(',', ' ') : ''} />
+                  </label>
+                  <label className="col-lg-2">
+                    Precio mínimo:
+                    <input className="form-control" name="minPrice" type="number" min="0" onChange={changeMinPrice} value={filters.minPrice} />
+                  </label>
+                  <label className="col-lg-2">
+                    Precio máximo:
+                    <input className="form-control" name="maxPrice" type="number" min="0" onChange={changeMaxPrice} value={filters.maxPrice} />
+                  </label>
+                  <label className="col-lg-2">
+                    Condición:
+                    <select className="form-select" name="condition" onChange={changeCondition} value={filters.condition}>
+                      <option value="new">Nuevo</option>
+                      <option value="used">Usado</option>
+                      <option value="">Cualquiera</option>
+                    </select>
+                  </label>
+                </form>
+              </div>
+            </div>
+          </div>
 
           <div className="modal-footer">
             <div className="text-muted flex-grow-1">
