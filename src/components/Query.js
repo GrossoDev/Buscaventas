@@ -40,7 +40,7 @@ function Query({ query, onFilter, onRemove }) {
           </p>
         </div>
 
-        <button type="button" onClick={() => onFilter(query.id)}>Filtrar</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#filterModal" onClick={() => onFilter(query.id)}>Filtrar</button>
         <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
       </div>
     );
@@ -68,7 +68,7 @@ function Query({ query, onFilter, onRemove }) {
         </p>
       </div>
 
-      <button type="button" onClick={() => onFilter(query.id)}>Filtrar</button>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#filterModal" onClick={() => onFilter(query.id)}>Filtrar</button>
       <button type="button" onClick={() => onRemove(query.id)}>Quitar búsqueda</button>
     </div>
   );

@@ -38,7 +38,6 @@ function App() {
     const filteredQuery = { ...filteringQuery, filteredResults, filters };
 
     setQueries(queries.map((query) => (query.id !== filteredQuery.id ? query : filteredQuery)));
-    setFilteringQuery(null);
   };
 
   const handleRemoveQuery = (id) => {
@@ -50,7 +49,6 @@ function App() {
   };
 
   const handleFilterQuery = (id) => setFilteringQuery(queries.find((query) => query.id === id));
-  const handleFilterCancel = () => setFilteringQuery(null);
 
   return (
     <div className="App">
@@ -63,16 +61,7 @@ function App() {
 
         <Sellers queries={queries} />
 
-        {
-          filteringQuery
-          && (
-            <FilterModal
-              query={filteringQuery}
-              onApply={handleFilterApply}
-              onCancel={handleFilterCancel}
-            />
-          )
-        }
+        <FilterModal filteringQuery={filteringQuery} onApply={handleFilterApply} />
       </main>
     </div>
   );

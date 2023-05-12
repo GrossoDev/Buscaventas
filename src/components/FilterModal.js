@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
+import Result from './Result';
 
 function filterResults(results, filters) {
   let filteredResults = results;
@@ -29,19 +30,9 @@ function filterResults(results, filters) {
   return filteredResults;
 }
 
-function Result({ title, thumbnail, link }) {
-  return (
-    <div>
-      <img src={thumbnail} alt="" />
+function FilterModal({ filteringQuery, onApply }) {
+  const query = filteringQuery || { filters: {}, results: [] };
 
-      <a href={link} target="_blank" rel="noopener noreferrer">
-        <p>{title}</p>
-      </a>
-    </div>
-  );
-}
-
-function FilterModal({ query, onApply, onCancel }) {
   const [filters, setFilters] = useState(query.filters);
   const filteredResults = filterResults(query.results, filters);
 
@@ -73,68 +64,63 @@ function FilterModal({ query, onApply, onCancel }) {
     onApply(filteredResults, filters);
   };
 
-  const modalStyle = {
-    position: 'absolute',
-    top: '30px',
-    bottom: '30px',
-    left: '60px',
-    right: '60px',
-    boxShadow: '0px 0px 50px 0px gray',
-    backgroundColor: 'white'
-  };
-
-  const resultsBoxStyle = {
-    overflow: 'scroll',
-    height: '80%'
-  };
-
   return (
-    <div style={modalStyle}>
-      <p>{query.title}</p>
+    <div id="filterModal" className="modal fade">
+      <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">{query.title}</h1>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+          </div>
 
-      <div style={resultsBoxStyle}>
-        {
-          // TODO: Lazy loading
-          filteredResults.map((result) => (
-            <Result
-              key={result.id}
-              title={result.title}
-              thumbnail={result.thumbnail}
-              link={result.link}
-            />
-          ))
-        }
+          <div className="modal-body">
+            {
+              // TODO: Lazy loading
+              filteredResults.map((result) => (
+                <Result
+                  key={result.id}
+                  title={result.title}
+                  thumbnail={result.thumbnail}
+                  link={result.link}
+                  price={result.price}
+                />
+              ))
+            }
+          </div>
+
+          <div className="modal-footer">
+            <form onSubmit={handleSubmit}>
+              <label>
+                Contiene:
+                <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain).replaceAll(',', ' ') : ''} />
+              </label>
+              <label>
+                No contiene:
+                <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain).replaceAll(',', ' ') : ''} />
+              </label>
+              <label>
+                Precio mínimo:
+                <input name="minPrice" type="number" onChange={changeMinPrice} defaultValue={query.filters.minPrice} />
+              </label>
+              <label>
+                Precio máximo:
+                <input name="maxPrice" type="number" onChange={changeMaxPrice} defaultValue={query.filters.maxPrice} />
+              </label>
+              <label>
+                Condición:
+                <select name="condition" onChange={changeCondition} defaultValue={query.filters.condition}>
+                  <option value="new">Nuevo</option>
+                  <option value="used">Usado</option>
+                  <option value="">Cualquiera</option>
+                </select>
+              </label>
+            </form>
+
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Aplicar filtros</button>
+          </div>
+        </div>
       </div>
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Contiene:
-          <input name="contain" type="text" onChange={changeContain} defaultValue={query.filters.contain ? String(query.filters.contain).replaceAll(',', ' ') : ''} />
-        </label>
-        <label>
-          No contiene:
-          <input name="dontContain" type="text" onChange={changeDontContain} defaultValue={query.filters.dontContain ? String(query.filters.dontContain).replaceAll(',', ' ') : ''} />
-        </label>
-        <label>
-          Precio mínimo:
-          <input name="minPrice" type="number" onChange={changeMinPrice} defaultValue={query.filters.minPrice} />
-        </label>
-        <label>
-          Precio máximo:
-          <input name="maxPrice" type="number" onChange={changeMaxPrice} defaultValue={query.filters.maxPrice} />
-        </label>
-        <label>
-          Condición:
-          <select name="condition" onChange={changeCondition} defaultValue={query.filters.condition}>
-            <option value="new">Nuevo</option>
-            <option value="used">Usado</option>
-            <option value="">Cualquiera</option>
-          </select>
-        </label>
-
-        <button type="submit">Aplicar filtro</button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-      </form>
     </div>
   );
 }
