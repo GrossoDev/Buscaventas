@@ -41,7 +41,7 @@ function FilterModal({ filteringQuery, onApply }) {
   const query = filteringQuery || { filters: {}, results: [] };
 
   const [filters, setFilters] = useState(query.filters);
-  const filteredResults = filterResults(query.results, filters).slice(0, 100);
+  const filteredResults = filterResults(query.results, filters);
 
   useEffect(() => {
     setFilters(query.filters);
@@ -87,7 +87,7 @@ function FilterModal({ filteringQuery, onApply }) {
           <div className="modal-body">
             {
               // TODO: Lazy loading
-              filteredResults.map((result) => (
+              filteredResults.slice(0, 100).map((result) => (
                 <Result
                   key={uuid()}
                   title={result.title}
@@ -99,34 +99,41 @@ function FilterModal({ filteringQuery, onApply }) {
             }
           </div>
 
-          <div className="modal-footer">
-            <form onSubmit={handleSubmit}>
-              <label>
-                Contiene:
-                <input name="contain" type="text" onChange={changeContain} value={filters.contain ? String(filters.contain).replaceAll(',', ' ') : ''} />
-              </label>
-              <label>
-                No contiene:
-                <input name="dontContain" type="text" onChange={changeDontContain} value={filters.dontContain ? String(filters.dontContain).replaceAll(',', ' ') : ''} />
-              </label>
-              <label>
-                Precio mínimo:
-                <input name="minPrice" type="number" onChange={changeMinPrice} value={filters.minPrice} />
-              </label>
-              <label>
-                Precio máximo:
-                <input name="maxPrice" type="number" onChange={changeMaxPrice} value={filters.maxPrice} />
-              </label>
-              <label>
-                Condición:
-                <select name="condition" onChange={changeCondition} value={filters.condition}>
-                  <option value="new">Nuevo</option>
-                  <option value="used">Usado</option>
-                  <option value="">Cualquiera</option>
-                </select>
-              </label>
-            </form>
+          <form className="p-3 border-top container d-flex justify-content-evenly" onSubmit={handleSubmit}>
+            <label className="col-2">
+              Contiene:
+              <input className="form-control" placeholder="Debe decir..." name="contain" type="text" onChange={changeContain} value={filters.contain ? String(filters.contain).replaceAll(',', ' ') : ''} />
+            </label>
+            <label className="col-2">
+              No contiene:
+              <input className="form-control" placeholder="No debe decir..." name="dontContain" type="text" onChange={changeDontContain} value={filters.dontContain ? String(filters.dontContain).replaceAll(',', ' ') : ''} />
+            </label>
+            <label className="col-2">
+              Precio mínimo:
+              <input className="form-control" name="minPrice" type="number" min="0" onChange={changeMinPrice} value={filters.minPrice} />
+            </label>
+            <label className="col-2">
+              Precio máximo:
+              <input className="form-control" name="maxPrice" type="number" min="0" onChange={changeMaxPrice} value={filters.maxPrice} />
+            </label>
+            <label className="col-2">
+              Condición:
+              <select className="form-select" name="condition" onChange={changeCondition} value={filters.condition}>
+                <option value="new">Nuevo</option>
+                <option value="used">Usado</option>
+                <option value="">Cualquiera</option>
+              </select>
+            </label>
+          </form>
 
+          <div className="modal-footer">
+            <div className="text-muted flex-grow-1">
+              {
+                filteredResults.length === 1
+                  ? '1 resultado'
+                  : `${filteredResults.length} resultados`
+              }
+            </div>
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Aplicar filtros</button>
           </div>
