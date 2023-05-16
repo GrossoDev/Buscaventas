@@ -92,7 +92,7 @@ function Query({ query, onFilter, onRemove }) {
           data-bs-toggle="modal"
           data-bs-target="#filterModal"
           onClick={() => onFilter(query.id)}
-          aria-label="Filtrar"
+          title="Filtrar"
         >
           <i className="bi bi-funnel-fill" />
         </button>
@@ -100,7 +100,7 @@ function Query({ query, onFilter, onRemove }) {
           className="btn btn-outline-danger m-1"
           type="button"
           onClick={() => onRemove(query.id)}
-          aria-label="Quitar búsqueda"
+          title="Quitar búsqueda"
         >
           <i className="bi bi-trash-fill" />
         </button>
