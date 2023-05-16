@@ -6,6 +6,8 @@ import FilterModal from './components/FilterModal';
 import MercadoLibre from './services/MercadoLibre';
 import Strings from './helpers/strings';
 
+const resultCount = 1000;
+
 function App() {
   const [queries, setQueries] = useState([]);
   const [filteringQuery, setFilteringQuery] = useState();
@@ -22,7 +24,7 @@ function App() {
       return;
     }
 
-    const placeholderQuery = MercadoLibre.search(queryText, 300);
+    const placeholderQuery = MercadoLibre.search(queryText, resultCount);
     setQueries(queries.concat(placeholderQuery));
 
     placeholderQuery.actualQuery.then(
