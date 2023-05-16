@@ -1,5 +1,5 @@
 import React from 'react';
-import Strings from '../helpers/strings';
+import Strings from '../../helpers/strings';
 
 function AutosuggestBox({
   queryText,

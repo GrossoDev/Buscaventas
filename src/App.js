@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import Queries from './components/Queries';
 import Sellers from './components/Sellers';
-import MercadoLibre from './services/MercadoLibre';
 import FilterModal from './components/FilterModal';
+import MercadoLibre from './services/MercadoLibre';
 import Strings from './helpers/strings';
 
 function App() {

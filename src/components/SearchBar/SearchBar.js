@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AutosuggestBox from './AutosuggestBox';
-import MercadoLibre from '../services/MercadoLibre';
-import Strings from '../helpers/strings';
+import MercadoLibre from '../../services/MercadoLibre';
+import Strings from '../../helpers/strings';
 
 function SearchBar({ onSearch }) {
   const [queryText, setQueryText] = useState('');
