@@ -11,10 +11,7 @@ function Queries({ queries, onFilter, onRemove }) {
             (query) => <Query key={query.id} {...{ query, onFilter, onRemove }} />
           )
           : (
-            <>
-              <p>Haz una búsqueda en el cuadro de arriba para comenzar.</p>
-              <p>Cuando hagas al menos dos búsquedas, te mostraremos los vendedores disponibles.</p>
-            </>
+            <p>Haz una búsqueda en el cuadro de arriba para comenzar.</p>
           )
       }
     </div>
