@@ -3,7 +3,7 @@ import Query from './Query';
 
 function Queries({ queries, onFilter, onRemove }) {
   return (
-    <div className="container mt-4">
+    <div className="container mt-5">
       <p className="display-6 mb-4">Búsquedas</p>
       {
         queries?.length
