@@ -15,7 +15,7 @@ function Result({
 
         <div className="flex-grow-1 ms-3 d-flex flex-column justify-content-center">
           <span className="">{title}</span>
-          <span>{`$${price}`}</span>
+          <b>{`$ ${price.toLocaleString()}`}</b>
         </div>
 
         <div className="ms-3 me-3 d-flex align-items-center">
