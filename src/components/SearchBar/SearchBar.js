@@ -71,7 +71,7 @@ function SearchBar({ onSearch }) {
   };
 
   return (
-    <div className="container position-relative px-0">
+    <div className="container position-relative">
       <form className="input-group mb-1" onSubmit={handleSubmit}>
         <input
           className="form-control"
