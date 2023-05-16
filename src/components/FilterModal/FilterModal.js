@@ -122,15 +122,15 @@ function FilterModal({ filteringQuery, onApply }) {
                   </label>
                   <label className="col-lg-2">
                     Precio mínimo:
-                    <input className="form-control" name="minPrice" type="number" min="0" onChange={changeMinPrice} value={filters.minPrice} />
+                    <input className="form-control" name="minPrice" type="number" min="0" onChange={changeMinPrice} value={filters.minPrice || 0} />
                   </label>
                   <label className="col-lg-2">
                     Precio máximo:
-                    <input className="form-control" name="maxPrice" type="number" min="0" onChange={changeMaxPrice} value={filters.maxPrice} />
+                    <input className="form-control" name="maxPrice" type="number" min="0" onChange={changeMaxPrice} value={filters.maxPrice || 0} />
                   </label>
                   <label className="col-lg-2">
                     Condición:
-                    <select className="form-select" name="condition" onChange={changeCondition} value={filters.condition}>
+                    <select className="form-select" name="condition" onChange={changeCondition} value={filters.condition || ''}>
                       <option value="new">Nuevo</option>
                       <option value="used">Usado</option>
                       <option value="">Cualquiera</option>
