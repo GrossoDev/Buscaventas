@@ -1,4 +1,4 @@
-nav .logo {
+.logo-square {
   width: 2rem;
   height: 2rem;
   background-image: url('./logo.svg');
@@ -6,6 +6,6 @@ nav .logo {
   background-size: contain;
 }
 
-[data-bs-theme=dark] nav .logo {
+[data-bs-theme=dark] .logo-square {
   background-image: url('./logo_dark.svg');
 }
