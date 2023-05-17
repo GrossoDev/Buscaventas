@@ -1,0 +1,11 @@
+nav .logo {
+  width: 2rem;
+  height: 2rem;
+  background-image: url('./logo.svg');
+  background-position: center;
+  background-size: contain;
+}
+
+[data-bs-theme=dark] nav .logo {
+  background-image: url('./logo_dark.svg');
+}
