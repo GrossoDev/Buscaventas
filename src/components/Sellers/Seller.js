@@ -47,8 +47,21 @@ function Seller({ seller, results, totalPrice, freeShipping }) {
   return (
     <div className="d-flex mb-2">
       <div className="flex-shrink-0">
-        <div className="img-thumbnail rounded" style={{ width: '96px', height: '96px' }}>
-          {results.map((result) => <Thumbnail key={result.id} result={result} />)}
+        <div className="d-flex flex-wrap img-thumbnail rounded" style={{ width: '96px', height: '96px' }}>
+          {
+            results.length > 4
+              ? (
+                <>
+                  <Thumbnail key={results[0].id} result={results[0]} />
+                  <Thumbnail key={results[1].id} result={results[1]} />
+                  <Thumbnail key={results[2].id} result={results[2]} />
+                  <span className="d-flex flex-grow-1 justify-content-center align-items-center text-dark bg-light" src="" alt="">
+                    <b>{`+${results.length - 4}`}</b>
+                  </span>
+                </>
+              )
+              : results.map((result) => <Thumbnail key={result.id} result={result} />)
+          }
         </div>
       </div>
 
