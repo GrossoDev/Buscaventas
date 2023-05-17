@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Logo from '../Logo';
+import ThemeSelect from './ThemeSelect';
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({ themeSelect }) {
   return (
     <nav className="navbar navbar-expand-lg border-bottom">
       <div className="container py-0 py-lg-3">
@@ -14,7 +15,7 @@ function Navbar() {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-4">
+          <ul className="navbar-nav ms-4 flex-grow-1">
             <li className="nav-item">
               <a className="nav-link" aria-current="page" href="#">Inicio</a>
             </li>
@@ -28,6 +29,13 @@ function Navbar() {
               </ul>
             </li>
           </ul>
+          <div className="flex-shrink-1 m-3 m-sm-0">
+            {
+              themeSelect
+                ? <ThemeSelect />
+                : null
+            }
+          </div>
         </div>
       </div>
     </nav>

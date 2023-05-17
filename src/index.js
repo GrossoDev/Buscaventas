@@ -8,7 +8,7 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Navbar />
+    <Navbar themeSelect />
     <App />
     <Footer />
   </React.StrictMode>
