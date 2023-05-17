@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Topbar from './components/Topbar';
 import SearchBar from './components/SearchBar';
 import Queries from './components/Queries';
 import Sellers from './components/Sellers';
@@ -54,8 +55,10 @@ function App() {
 
   return (
     <div className="App min-vh-100">
+      <Topbar />
+
       <main>
-        <h1 className="display-1 d-flex mt-5 justify-content-center">Buscaventas</h1>
+        <h1 className="display-1 d-flex mt-4 justify-content-center">Buscaventas</h1>
 
         <SearchBar onSearch={handleSearch} />
 
