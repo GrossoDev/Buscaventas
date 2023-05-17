@@ -19,6 +19,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/prop-types': [0],
-    'comma-dangle': ['warn', 'never']
+    'comma-dangle': ['warn', 'never'],
+    'no-console': 'off'
   }
 };
