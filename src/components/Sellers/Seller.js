@@ -32,7 +32,7 @@ function FreeShippingBadge({ freeShipping }) {
           </span>
           <span className="d-block d-sm-none">
             <i className="bi bi-truck-flatbed me-2" />
-            Envío pago
+            <b>Envío pago</b>
           </span>
         </p>
       )
