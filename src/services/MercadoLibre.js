@@ -1,7 +1,6 @@
 import axios from 'axios';
 import uuid from 'react-uuid';
 
-const site = 'MLA'; // TODO: MLA is for MercadoLibre Argentina. Let the user choose another country.
 const PAGING = 50; // The amount of results per request
 const LIMIT = 1000; // Maximum number of results. Hard limit by MercadoLibre
 
@@ -26,6 +25,7 @@ function parseResults(results) {
 
 function search(queryText, max) {
   const maxResults = max || 50;
+  const site = localStorage.getItem('country') || 'MLA';
   const promises = [];
   const controller = new AbortController();
   const defaultQuery = {
@@ -74,6 +74,7 @@ function search(queryText, max) {
 
 function autosuggest(queryText) {
   const count = 6;
+  const site = localStorage.getItem('country') || 'MLA';
   const url = `https://http2.mlstatic.com/resources/sites/${site}/autosuggest?limit=${count}&q=${encodeURIComponent(queryText)}`;
 
   const controller = new AbortController();

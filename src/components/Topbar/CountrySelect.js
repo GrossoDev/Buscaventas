@@ -2,13 +2,13 @@ import React from 'react';
 
 function CountrySelect() {
   let currentCountry = localStorage.getItem('country') || 'MLA';
+  localStorage.setItem('country', currentCountry);
 
   const setCountry = (country) => {
     currentCountry = country;
     localStorage.setItem('country', country);
+    window.location.reload();
   };
-
-  setCountry(currentCountry);
 
   return (
     <div className="">
