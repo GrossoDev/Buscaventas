@@ -53,7 +53,7 @@ function App() {
   const handleFilterQuery = (id) => setFilteringQuery(queries.find((query) => query.id === id));
 
   return (
-    <div className="App">
+    <div className="App min-vh-100">
       <main>
         <h1 className="display-1 d-flex mt-5 justify-content-center">Buscaventas</h1>
 
