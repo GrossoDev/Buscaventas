@@ -54,7 +54,7 @@ function App() {
   const handleFilterQuery = (id) => setFilteringQuery(queries.find((query) => query.id === id));
 
   return (
-    <div className="App min-vh-100">
+    <div className="App min-vh-100 pb-5">
       <Topbar />
 
       <main>
