@@ -30,7 +30,7 @@ jobs:
     
     - name: Rename build
       run: |
-        mv build github-page
+        mv build _site
   
   deploy:
     runs-on: ubuntu-latest
