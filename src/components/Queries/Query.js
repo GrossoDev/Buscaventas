@@ -1,11 +1,12 @@
 import React from 'react';
+import styles from './Query.module.css';
 
 function Query({ query, onFilter, onRemove }) {
   if (query.isPlaceholder) {
     return (
       <div className="d-flex mb-2">
         <div className="flex-shrink-0">
-          <div className="img-thumbnail rounded d-flex align-items-center justify-content-center" style={{ width: '96px', height: '96px' }}>
+          <div className={`img-thumbnail rounded d-flex align-items-center justify-content-center ${styles.thumbnail}`}>
             <div className="spinner-border" role="status" />
           </div>
         </div>
@@ -42,7 +43,7 @@ function Query({ query, onFilter, onRemove }) {
         ? (
           <>
             <div className="flex-shrink-0">
-              <img className="img-thumbnail object-fit-contain rounded" src={thumbnail} alt="" style={{ width: '96px', height: '96px' }} />
+              <img className={`img-thumbnail object-fit-contain rounded ${styles.thumbnail}`} src={thumbnail} alt="" />
             </div>
 
             <div className="flex-grow-1 ms-3 d-flex flex-column justify-content-center">
@@ -70,7 +71,7 @@ function Query({ query, onFilter, onRemove }) {
         : (
           <>
             <div className="flex-shrink-0">
-              <div className="img-thumbnail rounded d-flex align-items-center justify-content-center" style={{ width: '96px', height: '96px' }}>
+              <div className={`img-thumbnail rounded d-flex align-items-center justify-content-center ${styles.thumbnail}`}>
                 <i className="display-5 bi bi-question" />
               </div>
             </div>
