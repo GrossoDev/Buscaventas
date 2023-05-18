@@ -1,0 +1,3 @@
+[submodule "src/grosso-bootreact"]
+	path = src/grosso-bootreact
+	url = https://github.com/GrossoDev/grosso-bootreact.git
