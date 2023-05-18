@@ -1,8 +1,0 @@
-/* Navbar links' font */
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600&display=swap');
-
-nav .nav-link {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.75rem;
-}
