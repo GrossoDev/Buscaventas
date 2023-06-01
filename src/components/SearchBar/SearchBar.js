@@ -95,7 +95,8 @@ function SearchBar({ onSearch }) {
               className="d-flex align-items-center position-relative m-0"
               style={{ left: '-24px', width: 0, zIndex: 1000 }}
               onMouseDown={clearInput}
-              role="none"
+              role="button"
+              aria-hidden
             >
               <i className="bi bi-x" />
             </div>
