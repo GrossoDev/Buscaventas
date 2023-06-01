@@ -88,6 +88,21 @@ function SearchBar({ onSearch }) {
           onBlur={() => setFocus(false)}
         />
 
+        {
+        focus && !Strings.isEmptyOrWhitespace(queryText)
+          ? (
+            <div
+              className="d-flex align-items-center position-relative m-0"
+              style={{ left: '-24px', width: 0, zIndex: 1000 }}
+              onMouseDown={clearInput}
+              role="none"
+            >
+              <i className="bi bi-x" />
+            </div>
+          )
+          : null
+        }
+
         <button className="btn btn-primary px-4" type="submit" title="Buscar">
           <i className="bi bi-search" />
         </button>
