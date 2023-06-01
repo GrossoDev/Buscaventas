@@ -56,7 +56,7 @@ function Seller({ seller, results, totalPrice, freeShipping }) {
                   <Thumbnail key={results[1].id} result={results[1]} />
                   <Thumbnail key={results[2].id} result={results[2]} />
                   <span className="d-flex flex-grow-1 justify-content-center align-items-center text-dark bg-light" src="" alt="">
-                    <b>{`+${results.length - 4}`}</b>
+                    <b>{`+${results.length - 3}`}</b>
                   </span>
                 </>
               )
