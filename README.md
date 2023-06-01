@@ -5,7 +5,8 @@ Search engine that helps you find different products from the same seller using 
 
 ## Usage
 ### Git Submodules
-This project uses Git Submodules. After cloning the repo, run `git submodule init` to load them all.
+This project uses Git Submodules.
+After cloning the repo, run `git submodule init` to initialize them and `git submodule update` to clone them into the project.
 
 ### Running locally
 You can start this project locally by running `npm start`.
