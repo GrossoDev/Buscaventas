@@ -10,6 +10,12 @@ function SearchBar({ onSearch }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const isSelectionValid = selectedIndex !== -1 && selectedIndex < suggestions.length;
 
+  const clearInput = () => {
+    setSuggestions([]);
+    setSelectedIndex(-1);
+    setQueryText('');
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -19,9 +25,12 @@ function SearchBar({ onSearch }) {
       onSearch(queryText);
     }
 
-    setSuggestions([]);
-    setSelectedIndex(-1);
-    setQueryText('');
+    clearInput();
+  };
+
+  const suggestionClick = (text) => {
+    onSearch(text);
+    clearInput();
   };
 
   const inputChange = (e) => {
@@ -63,11 +72,6 @@ function SearchBar({ onSearch }) {
     if (newIndex >= suggestions.length) newIndex = 0;
 
     setSelectedIndex(newIndex);
-  };
-
-  const suggestionClick = (text) => {
-    setQueryText(text);
-    onSearch(text);
   };
 
   return (
