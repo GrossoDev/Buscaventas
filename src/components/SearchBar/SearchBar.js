@@ -10,6 +10,12 @@ function SearchBar({ onSearch }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const isSelectionValid = selectedIndex !== -1 && selectedIndex < suggestions.length;
 
+  const clearInput = () => {
+    setSuggestions([]);
+    setSelectedIndex(-1);
+    setQueryText('');
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -19,9 +25,12 @@ function SearchBar({ onSearch }) {
       onSearch(queryText);
     }
 
-    setSuggestions([]);
-    setSelectedIndex(-1);
-    setQueryText('');
+    clearInput();
+  };
+
+  const suggestionClick = (text) => {
+    onSearch(text);
+    clearInput();
   };
 
   const inputChange = (e) => {
@@ -65,11 +74,6 @@ function SearchBar({ onSearch }) {
     setSelectedIndex(newIndex);
   };
 
-  const suggestionClick = (text) => {
-    setQueryText(text);
-    onSearch(text);
-  };
-
   return (
     <div className="container position-relative">
       <form className="input-group mb-1" onSubmit={handleSubmit}>
@@ -84,13 +88,29 @@ function SearchBar({ onSearch }) {
           onBlur={() => setFocus(false)}
         />
 
+        {
+        focus && !Strings.isEmptyOrWhitespace(queryText)
+          ? (
+            <div
+              className="d-flex align-items-center position-relative m-0"
+              style={{ left: '-24px', width: 0, zIndex: 1000 }}
+              onMouseDown={clearInput}
+              role="button"
+              aria-hidden
+            >
+              <i className="bi bi-x" />
+            </div>
+          )
+          : null
+        }
+
         <button className="btn btn-primary px-4" type="submit" title="Buscar">
           <i className="bi bi-search" />
         </button>
       </form>
 
       {
-      focus
+      focus && !Strings.isEmptyOrWhitespace(queryText)
         ? (
           <AutosuggestBox
             queryText={queryText}
