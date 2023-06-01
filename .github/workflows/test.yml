@@ -1,0 +1,36 @@
+name: Test project
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    # For now, just test that it builds correctly
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v3
+
+    - name: Checkout submodules
+      run: |
+        git submodule init
+        git submodule update
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build CRA project
+      run: |
+        npm install
+        npm run build
+
