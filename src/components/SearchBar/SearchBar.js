@@ -94,7 +94,7 @@ function SearchBar({ onSearch }) {
       </form>
 
       {
-      focus
+      focus && !Strings.isEmptyOrWhitespace(queryText)
         ? (
           <AutosuggestBox
             queryText={queryText}
