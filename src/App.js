@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import Queries from './components/Queries';
 import Sellers from './components/Sellers';
 import FilterModal from './components/FilterModal';
+import ResultsModal from './components/ResultsModal';
 import MercadoLibre from './services/MercadoLibre';
 import Strings from './helpers/strings';
 
@@ -67,6 +68,8 @@ function App() {
         <Sellers queries={queries} />
 
         <FilterModal filteringQuery={filteringQuery} onApply={handleFilterApply} />
+
+        <ResultsModal />
       </main>
     </div>
   );
