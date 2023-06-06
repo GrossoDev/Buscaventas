@@ -39,7 +39,7 @@ function FreeShippingBadge({ freeShipping }) {
   );
 }
 
-function Seller({ seller, results, totalPrice, freeShipping }) {
+function Seller({ seller, results, totalPrice, freeShipping, onSelect }) {
   return (
     <div className="d-flex mb-2">
       <div className="flex-shrink-0">
@@ -81,8 +81,9 @@ function Seller({ seller, results, totalPrice, freeShipping }) {
           type="button"
           data-bs-toggle="modal"
           data-bs-target="#resultsModal"
+          onClick={() => onSelect(seller, results)}
         >
-          Resultados
+          Ver resultados
         </button>
       </div>
     </div>

@@ -13,6 +13,7 @@ const resultCount = 1000;
 function App() {
   const [queries, setQueries] = useState([]);
   const [filteringQuery, setFilteringQuery] = useState();
+  const [currentSeller, setCurrentSeller] = useState();
 
   const handleSearch = (text) => {
     const queryText = text.trim().toUpperCase();
@@ -52,6 +53,8 @@ function App() {
     setQueries(queries.filter((q) => query !== q));
   };
 
+  const handleSellerSelected = (seller, results) => setCurrentSeller({ seller, results });
+
   const handleFilterQuery = (id) => setFilteringQuery(queries.find((query) => query.id === id));
 
   return (
@@ -65,11 +68,11 @@ function App() {
 
         <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
 
-        <Sellers queries={queries} />
+        <Sellers queries={queries} onSelect={handleSellerSelected} />
 
         <FilterModal filteringQuery={filteringQuery} onApply={handleFilterApply} />
 
-        <ResultsModal />
+        <ResultsModal currentSeller={currentSeller} />
       </main>
     </div>
   );
