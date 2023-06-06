@@ -4,7 +4,7 @@ import React from 'react';
 function ResultsModal() {
   return (
     <div id="resultsModal" className="modal fade">
-      <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div className="modal-dialog modal-xl modal-fullscreen-lg-down modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5">Modal</h1>
