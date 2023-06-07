@@ -2,10 +2,10 @@
 import uuid from 'react-uuid';
 import React, { useState, useEffect } from 'react';
 import Result from '../Result';
-import Strings from '../../helpers/strings';
+import '../../helpers/strings';
 
 function contains(result, text) {
-  if (Strings.isEmptyOrWhitespace(text)) return false;
+  if (text.isEmptyOrWhitespace()) return false;
   return result.includes(text);
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable object-curly-newline */
 import React from 'react';
 import Seller from './Seller';
+import '../../helpers/arrays';
 
 function Sellers({ queries, onSelect }) {
   const queriesReady = queries.filter((query) => !query.isPlaceholder);
@@ -8,22 +9,26 @@ function Sellers({ queries, onSelect }) {
   // Extract sellers from query.result.seller
   // Filter unique sellers
   const sellers = queriesReady
-    .reduce((acc, query) => acc.concat(query.filteredResults.map((result) => result.seller)), [])
-    .filter((seller, index, array) => array.findIndex((value) => value.id === seller.id) === index);
+    .map((query) => query.filteredResults.map((result) => result.seller))
+    .flat()
+    .unique((seller) => seller.id);
 
   // Create seller-results pairs
-  // Make sure all sellers contain results for all queries
+  // Remove result-seller pairs with no results
+  // Add extra info about each seller
+  // Sort them by total price
   const resultsBySeller = sellers
     .map((seller) => ({
       seller,
       results: queriesReady
         .map((query) => query.filteredResults.find((result) => result.seller.id === seller.id))
     }))
-    .filter(({ results }) => results.every((v) => v)) // Remove result-seller pairs with no results
-    .map((pair) => ({
-      ...pair,
-      totalPrice: pair.results.reduce((total, result) => total + result.price, 0),
-      freeShipping: pair.results.some((result) => result.freeShipping)
+    .filter(({ results }) => results.every((v) => v))
+    .map(({ seller, results }) => ({
+      seller,
+      results,
+      totalPrice: results.reduce((total, result) => total + result.price, 0),
+      freeShipping: results.some((result) => result.freeShipping)
     }))
     .sort((a, b) => a.totalPrice - b.totalPrice);
 

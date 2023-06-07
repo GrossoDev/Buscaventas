@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AutosuggestBox from './AutosuggestBox';
 import MercadoLibre from '../../services/MercadoLibre';
-import Strings from '../../helpers/strings';
+import '../../helpers/strings';
 
 function SearchBar({ onSearch }) {
   const [queryText, setQueryText] = useState('');
@@ -36,7 +36,7 @@ function SearchBar({ onSearch }) {
   const inputChange = (e) => {
     const text = e.target.value;
 
-    if (Strings.isEmptyOrWhitespace(text)) {
+    if (text.isEmptyOrWhitespace()) {
       setSuggestions([]);
     } else {
       MercadoLibre.autosuggest(text).promise.then(setSuggestions);
@@ -89,7 +89,7 @@ function SearchBar({ onSearch }) {
         />
 
         {
-        focus && !Strings.isEmptyOrWhitespace(queryText)
+        focus && !queryText.isEmptyOrWhitespace()
           ? (
             <div
               className="d-flex align-items-center position-relative m-0"
@@ -110,7 +110,7 @@ function SearchBar({ onSearch }) {
       </form>
 
       {
-      focus && !Strings.isEmptyOrWhitespace(queryText)
+      focus && !queryText.isEmptyOrWhitespace()
         ? (
           <AutosuggestBox
             queryText={queryText}
