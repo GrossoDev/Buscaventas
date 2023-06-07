@@ -1,25 +1,36 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
-function ResultsModal() {
+function ResultsModal({ currentSeller }) {
+  const { seller, results } = currentSeller;
+  const totalPrice = results.reduce((acc, result) => acc + result.price, 0);
+
   return (
     <div id="resultsModal" className="modal fade">
       <div className="modal-dialog modal-xl modal-fullscreen-lg-down modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5">Modal</h1>
+            <h1 className="modal-title fs-5">{seller.name}</h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" />
           </div>
 
           <div className="modal-body">
-            Cuerpo
+            {
+              results.map((result) => (
+                <div>
+                  {result.price}
+                </div>
+              ))
+            }
           </div>
 
           <div className="modal-footer">
-            <div className="text-muted flex-grow-1">
-              Footer
+            <div className="fs-5 flex-grow-1">
+              <span>Total: </span>
+              <span className="ms-1 fw-bold">
+                {`$ ${totalPrice.toLocaleString()}`}
+              </span>
             </div>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
           </div>
         </div>
