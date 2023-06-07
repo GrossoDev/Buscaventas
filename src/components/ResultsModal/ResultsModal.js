@@ -3,7 +3,7 @@ import React from 'react';
 import Result from '../Result';
 
 function ResultsModal({ currentSeller }) {
-  const { seller, results } = currentSeller;
+  const { seller, results } = currentSeller || { seller: { name: '' }, results: [] };
   const totalPrice = results.reduce((acc, result) => acc + result.price, 0);
 
   return (
