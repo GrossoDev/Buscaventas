@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import Result from '../Result';
 
 function ResultsModal({ currentSeller }) {
   const { seller, results } = currentSeller;
@@ -17,9 +18,12 @@ function ResultsModal({ currentSeller }) {
           <div className="modal-body">
             {
               results.map((result) => (
-                <div>
-                  {result.price}
-                </div>
+                <Result
+                  title={result.title}
+                  thumbnail={result.thumbnail}
+                  link={result.link}
+                  price={result.price}
+                />
               ))
             }
           </div>
