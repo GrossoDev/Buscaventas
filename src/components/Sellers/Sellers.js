@@ -8,7 +8,8 @@ function Sellers({ queries, onSelect }) {
   // Extract sellers from query.result.seller
   // Filter unique sellers
   const sellers = queriesReady
-    .reduce((acc, query) => acc.concat(query.filteredResults.map((result) => result.seller)), [])
+    .map((query) => query.filteredResults.map((result) => result.seller))
+    .flat()
     .filter((seller, index, array) => array.findIndex((value) => value.id === seller.id) === index);
 
   // Create seller-results pairs
