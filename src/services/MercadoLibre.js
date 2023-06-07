@@ -16,6 +16,7 @@ function parseResults(results) {
     condition: result.condition,
     seller: {
       id: result.seller.id,
+      name: result.seller.nickname,
       address: `${result.address.city_name}, ${result.address.state_name}`,
       link: result.seller.permalink,
       level: result.seller.seller_reputation.level_id

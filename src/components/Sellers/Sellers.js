@@ -2,7 +2,7 @@
 import React from 'react';
 import Seller from './Seller';
 
-function Sellers({ queries }) {
+function Sellers({ queries, onSelect }) {
   const queriesReady = queries.filter((query) => !query.isPlaceholder);
 
   // Extract sellers from query.result.seller
@@ -42,7 +42,14 @@ function Sellers({ queries }) {
               <div className="mt-4">
                 {
                   resultsBySeller.map(({ seller, results, totalPrice, freeShipping }) => (
-                    <Seller key={seller.id} {...{ seller, results, totalPrice, freeShipping }} />
+                    <Seller
+                      key={seller.id}
+                      onSelect={onSelect}
+                      seller={seller}
+                      results={results}
+                      totalPrice={totalPrice}
+                      freeShipping={freeShipping}
+                    />
                   ))
                 }
               </div>

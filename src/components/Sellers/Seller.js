@@ -39,11 +39,7 @@ function FreeShippingBadge({ freeShipping }) {
   );
 }
 
-function Seller({ seller, results, totalPrice, freeShipping }) {
-  const openAll = () => {
-    results.forEach((result) => window.open(result.link));
-  };
-
+function Seller({ seller, results, totalPrice, freeShipping, onSelect }) {
   return (
     <div className="d-flex mb-2">
       <div className="flex-shrink-0">
@@ -83,10 +79,11 @@ function Seller({ seller, results, totalPrice, freeShipping }) {
         <button
           className="btn btn-outline-primary m-1"
           type="button"
-          onClick={openAll}
+          data-bs-toggle="modal"
+          data-bs-target="#resultsModal"
+          onClick={() => onSelect(seller, results)}
         >
-          Ver todos
-          <i className="bi bi-box-arrow-up-right ms-2" />
+          Ver resultados
         </button>
       </div>
     </div>
