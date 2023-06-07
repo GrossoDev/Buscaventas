@@ -6,7 +6,7 @@ import Sellers from './components/Sellers';
 import FilterModal from './components/FilterModal';
 import ResultsModal from './components/ResultsModal';
 import MercadoLibre from './services/MercadoLibre';
-import Strings from './helpers/strings';
+import './helpers/strings';
 
 const resultCount = 1000;
 
@@ -18,7 +18,7 @@ function App() {
   const handleSearch = (text) => {
     const queryText = text.trim().toUpperCase();
 
-    if (Strings.isEmptyOrWhitespace(queryText)) {
+    if (queryText.isEmptyOrWhitespace()) {
       console.warn('The query title was empty.');
       return;
     }

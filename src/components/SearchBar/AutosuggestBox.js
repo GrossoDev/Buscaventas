@@ -1,5 +1,5 @@
 import React from 'react';
-import Strings from '../../helpers/strings';
+import '../../helpers/strings';
 
 function AutosuggestBox({
   queryText,
@@ -10,7 +10,7 @@ function AutosuggestBox({
   return (
     <div className={`container dropdown-menu position-absolute start-0 end-0 ${suggestions.length !== 0 ? 'show' : ''}`}>
       {
-        !Strings.isEmptyOrWhitespace(queryText) && (
+        !queryText.isEmptyOrWhitespace() && (
           suggestions.map((suggestion, index) => {
             const beginning = suggestion.q.substring(0, suggestion.match_start);
             const midsection = suggestion.q.substring(suggestion.match_start, suggestion.match_end);

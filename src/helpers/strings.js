@@ -1,5 +1,6 @@
-const isEmptyOrWhitespace = (str) => str.trim().length === 0;
+/* eslint-disable func-names */
+/* eslint-disable no-extend-native */
 
-export default {
-  isEmptyOrWhitespace
+String.prototype.isEmptyOrWhitespace = function () {
+  return this.trim().length === 0;
 };
