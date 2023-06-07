@@ -1,6 +1,7 @@
 /* eslint-disable object-curly-newline */
 import React from 'react';
 import Seller from './Seller';
+import '../../helpers/arrays';
 
 function Sellers({ queries, onSelect }) {
   const queriesReady = queries.filter((query) => !query.isPlaceholder);
@@ -10,7 +11,7 @@ function Sellers({ queries, onSelect }) {
   const sellers = queriesReady
     .map((query) => query.filteredResults.map((result) => result.seller))
     .flat()
-    .filter((seller, index, array) => array.findIndex((value) => value.id === seller.id) === index);
+    .unique((seller) => seller.id);
 
   // Create seller-results pairs
   // Remove result-seller pairs with no results
