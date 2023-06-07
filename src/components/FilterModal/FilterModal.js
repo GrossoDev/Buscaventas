@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import uuid from 'react-uuid';
 import React, { useState, useEffect } from 'react';
-import Result from './Result';
+import Result from '../Result';
 import Strings from '../../helpers/strings';
 
 function contains(result, text) {
