@@ -2,7 +2,7 @@ import React from 'react';
 
 function Thumbnail({ result }) {
   return (
-    <a href={result.link}>
+    <a href={result.link} title={result.title}>
       <img className="object-fit-contain" src={result.thumbnail} alt={result.title} style={{ width: '43px', height: '43px' }} />
     </a>
   );
