@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import React from 'react';
 import Seller from './Seller';
 import '../../helpers/arrays';
