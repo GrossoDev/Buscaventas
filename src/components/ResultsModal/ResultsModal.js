@@ -19,6 +19,7 @@ function ResultsModal({ currentSeller }) {
             {
               results.map((result) => (
                 <Result
+                  key={result.id}
                   title={result.title}
                   thumbnail={result.thumbnail}
                   link={result.link}

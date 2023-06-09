@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import uuid from 'react-uuid';
 import React, { useState, useEffect } from 'react';
 import Result from '../Result';
 import '../../helpers/strings';
@@ -89,7 +88,7 @@ function FilterModal({ filteringQuery, onApply }) {
               // TODO: Lazy loading
               filteredResults.slice(0, 100).map((result) => (
                 <Result
-                  key={uuid()}
+                  key={result.id}
                   title={result.title}
                   thumbnail={result.thumbnail}
                   link={result.link}
