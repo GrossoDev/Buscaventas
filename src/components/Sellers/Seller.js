@@ -1,9 +1,8 @@
-/* eslint-disable object-curly-newline */
 import React from 'react';
 
 function Thumbnail({ result }) {
   return (
-    <a href={result.link}>
+    <a href={result.link} title={result.title}>
       <img className="object-fit-contain" src={result.thumbnail} alt={result.title} style={{ width: '43px', height: '43px' }} />
     </a>
   );
@@ -43,21 +42,23 @@ function Seller({ seller, results, totalPrice, freeShipping, onSelect }) {
   return (
     <div className="d-flex mb-2">
       <div className="flex-shrink-0">
-        <div className="d-flex flex-wrap img-thumbnail rounded" style={{ width: '96px', height: '96px' }}>
-          {
-            results.length > 4
-              ? (
-                <>
-                  <Thumbnail key={results[0].id} result={results[0]} />
-                  <Thumbnail key={results[1].id} result={results[1]} />
-                  <Thumbnail key={results[2].id} result={results[2]} />
-                  <span className="d-flex flex-grow-1 justify-content-center align-items-center text-dark bg-light" src="" alt="">
-                    <b>{`+${results.length - 3}`}</b>
-                  </span>
-                </>
-              )
-              : results.map((result) => <Thumbnail key={result.id} result={result} />)
-          }
+        <div className="img-thumbnail rounded" style={{ width: '96px', height: '96px' }}>
+          <div className="d-flex flex-wrap w-100 h-100 bg-light">
+            {
+              results.length > 4
+                ? (
+                  <>
+                    <Thumbnail key={results[0].id} result={results[0]} />
+                    <Thumbnail key={results[1].id} result={results[1]} />
+                    <Thumbnail key={results[2].id} result={results[2]} />
+                    <span className="d-flex flex-grow-1 justify-content-center align-items-center text-dark bg-light">
+                      <b>{`+${results.length - 3}`}</b>
+                    </span>
+                  </>
+                )
+                : results.map((result) => <Thumbnail key={result.id} result={result} />)
+            }
+          </div>
         </div>
       </div>
 

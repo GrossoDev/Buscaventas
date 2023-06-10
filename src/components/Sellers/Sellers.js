@@ -1,14 +1,11 @@
-/* eslint-disable object-curly-newline */
 import React from 'react';
 import Seller from './Seller';
 import '../../helpers/arrays';
 
-function Sellers({ queries, onSelect }) {
-  const queriesReady = queries.filter((query) => !query.isPlaceholder);
-
+const getResultsBySeller = (queries) => {
   // Extract sellers from query.result.seller
   // Filter unique sellers
-  const sellers = queriesReady
+  const sellers = queries
     .map((query) => query.filteredResults.map((result) => result.seller))
     .flat()
     .unique((seller) => seller.id);
@@ -20,7 +17,7 @@ function Sellers({ queries, onSelect }) {
   const resultsBySeller = sellers
     .map((seller) => ({
       seller,
-      results: queriesReady
+      results: queries
         .map((query) => query.filteredResults.find((result) => result.seller.id === seller.id))
     }))
     .filter(({ results }) => results.every((v) => v))
@@ -31,6 +28,13 @@ function Sellers({ queries, onSelect }) {
       freeShipping: results.some((result) => result.freeShipping)
     }))
     .sort((a, b) => a.totalPrice - b.totalPrice);
+
+  return resultsBySeller;
+};
+
+function Sellers({ queries, onSelect }) {
+  const queriesReady = queries.filter((query) => !query.isPlaceholder);
+  const resultsBySeller = getResultsBySeller(queriesReady);
 
   return (
     <div className="container mt-5">
