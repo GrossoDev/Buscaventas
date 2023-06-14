@@ -48,10 +48,8 @@ function search(queryText, max) {
     const url = `https://api.mercadolibre.com/sites/${site}/search?q=${encodeURIComponent(queryText)}&offset=${offset}`;
 
     promises.push(
-      Promise.resolve(
-        axios.get(url, { signal: controller.signal })
-          .then(({ data }) => parseResults(data.results))
-      )
+      axios.get(url, { signal: controller.signal })
+        .then(({ data }) => parseResults(data.results))
     );
   }
 
