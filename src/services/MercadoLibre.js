@@ -6,7 +6,7 @@ const LIMIT = 1000; // Maximum number of results. Hard limit by MercadoLibre
 
 // TODO: some sort of schema
 function parseResults(results) {
-  return results.reduce((arr, result) => arr.concat({
+  return results.map((result) => ({
     id: uuid(), // ML's id is _somehow_ not unique
     title: result.title,
     thumbnail: result.thumbnail,
@@ -21,7 +21,7 @@ function parseResults(results) {
       link: result.seller.permalink,
       level: result.seller.seller_reputation.level_id
     }
-  }), []);
+  }));
 }
 
 function search(queryText, max) {
@@ -48,10 +48,8 @@ function search(queryText, max) {
     const url = `https://api.mercadolibre.com/sites/${site}/search?q=${encodeURIComponent(queryText)}&offset=${offset}`;
 
     promises.push(
-      Promise.resolve(
-        axios.get(url, { signal: controller.signal })
-          .then(({ data }) => parseResults(data.results))
-      )
+      axios.get(url, { signal: controller.signal })
+        .then(({ data }) => parseResults(data.results))
     );
   }
 
