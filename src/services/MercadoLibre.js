@@ -39,7 +39,7 @@ function search(queryText, max) {
       dontContain: null,
       minPrice: 0,
       maxPrice: 0,
-      condition: ''
+      condition: 'new'
     }
   };
 
