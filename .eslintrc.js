@@ -21,6 +21,7 @@ module.exports = {
     'react/prop-types': [0],
     'comma-dangle': ['warn', 'never'],
     'object-curly-newline': ['error', { multiline: true }],
-    'no-console': 'off'
+    'no-console': 'off',
+    'jsx-a11y/label-has-associated-control': ['error', { required: { some: ['nesting'] } }]
   }
 };
