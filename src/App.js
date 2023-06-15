@@ -61,19 +61,23 @@ function App() {
     <div className="App min-vh-100 pb-5">
       <Topbar />
 
-      <main>
-        <h1 className="display-1 d-flex mt-4 justify-content-center">Buscaventas</h1>
+      <main className="pt-5">
+        <h1 className="mb-4 text-center fw-semibold display-1">Buscaventas</h1>
+
+        <p className="mb-5 text-center fw-medium fs-5">
+          Encuentra fácilmente vendedores que ofrecen todos los productos que necesitas.
+        </p>
 
         <SearchBar onSearch={handleSearch} />
-
-        <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
-
-        <Sellers queries={queries} onSelect={handleSellerSelected} />
-
-        <FilterModal filteringQuery={filteringQuery} onApply={handleFilterApply} />
-
-        <ResultsModal currentSeller={currentSeller} />
       </main>
+
+      <Queries queries={queries} onFilter={handleFilterQuery} onRemove={handleRemoveQuery} />
+
+      <Sellers queries={queries} onSelect={handleSellerSelected} />
+
+      <FilterModal filteringQuery={filteringQuery} onApply={handleFilterApply} />
+
+      <ResultsModal currentSeller={currentSeller} />
     </div>
   );
 }
