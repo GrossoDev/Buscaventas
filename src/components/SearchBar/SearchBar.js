@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import AutosuggestBox from './AutosuggestBox';
-import MercadoLibre from '../../services/MercadoLibre';
+import { useSuggestions } from './hooks';
 import '../../helpers/strings';
 
 function SearchBar({ onSearch }) {
-  const [queryText, setQueryText] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
   const [focus, setFocus] = useState(false);
+  const [queryText, setQueryText] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const suggestions = useSuggestions(queryText);
+
   const isSelectionValid = selectedIndex !== -1 && selectedIndex < suggestions.length;
 
   const clearInput = () => {
-    setSuggestions([]);
     setSelectedIndex(-1);
     setQueryText('');
   };
@@ -36,12 +36,6 @@ function SearchBar({ onSearch }) {
   const inputChange = (e) => {
     const text = e.target.value;
 
-    if (text.isEmptyOrWhitespace()) {
-      setSuggestions([]);
-    } else {
-      MercadoLibre.autosuggest(text).promise.then(setSuggestions);
-    }
-
     setQueryText(text);
   };
 
@@ -55,13 +49,11 @@ function SearchBar({ onSearch }) {
     } else if (e.keyCode === 32) { // Space bar = autocomplete input with current selection
       if (isSelectionValid) {
         setQueryText(suggestions[selectedIndex].q);
-        setSuggestions([]);
         newIndex = -1;
       }
     } else if (e.keyCode === 9) { // Tab = autocomplete input with current selection
       if (isSelectionValid) {
         setQueryText(suggestions[selectedIndex].q);
-        setSuggestions([]);
         newIndex = -1;
 
         e.preventDefault(); // Prevent loss of focus
@@ -78,30 +70,28 @@ function SearchBar({ onSearch }) {
     <div className="container position-relative">
       <form className="input-group mb-1" onSubmit={handleSubmit}>
         <input
-          className="form-control"
           type="text"
-          placeholder="Ingrese un artículo para buscar..."
+          className="form-control"
           value={queryText}
-          onChange={inputChange}
           onKeyDown={keyDown}
+          onChange={inputChange}
+          placeholder="Ingrese un artículo para buscar..."
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
         />
 
         {
-        focus && !queryText.isEmptyOrWhitespace()
-          ? (
-            <div
-              className="d-flex align-items-center position-relative m-0"
-              style={{ left: '-24px', width: 0, zIndex: 1000 }}
-              onMouseDown={clearInput}
-              role="button"
-              aria-hidden
-            >
-              <i className="bi bi-x" />
-            </div>
-          )
-          : null
+        focus && !queryText.isEmptyOrWhitespace() && (
+          <div
+            className="d-flex align-items-center position-relative m-0"
+            style={{ left: '-24px', width: 0, zIndex: 1000 }}
+            onMouseDown={clearInput}
+            role="button"
+            aria-hidden
+          >
+            <i className="bi bi-x" />
+          </div>
+        )
         }
 
         <button className="btn btn-primary px-4" type="submit" title="Buscar">
@@ -110,16 +100,14 @@ function SearchBar({ onSearch }) {
       </form>
 
       {
-      focus && !queryText.isEmptyOrWhitespace()
-        ? (
-          <AutosuggestBox
-            queryText={queryText}
-            suggestions={suggestions}
-            suggestionClick={suggestionClick}
-            selectedIndex={selectedIndex}
-          />
-        )
-        : null
+      focus && !queryText.isEmptyOrWhitespace() && (
+        <AutosuggestBox
+          queryText={queryText}
+          suggestions={suggestions}
+          suggestionClick={suggestionClick}
+          selectedIndex={selectedIndex}
+        />
+      )
       }
     </div>
   );
