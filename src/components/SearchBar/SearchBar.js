@@ -21,9 +21,11 @@ function SearchBar({ onSearch }) {
     switch (e.keyCode) {
       case 38: // Up arrow
         dispatch({ type: ActionType.PREV_SUGGESTION });
+        e.preventDefault();
         break;
       case 40: // Down arrow
         dispatch({ type: ActionType.NEXT_SUGGESTION });
+        e.preventDefault();
         break;
       case 9: // Tab
       case 32: // Space bar
