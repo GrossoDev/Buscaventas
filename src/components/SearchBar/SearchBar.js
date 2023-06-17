@@ -1,65 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AutosuggestBox from './AutosuggestBox';
-import { useSuggestions } from './hooks';
-import '../../helpers/strings';
+import { useSearchBar, ActionType } from './searchBarReducer';
 
 function SearchBar({ onSearch }) {
-  const [focus, setFocus] = useState(false);
-  const [queryText, setQueryText] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const suggestions = useSuggestions(queryText);
-
-  const isSelectionValid = selectedIndex !== -1 && selectedIndex < suggestions.length;
-
-  const clearInput = () => {
-    setQueryText('');
-    setSelectedIndex(-1);
-  };
+  const [state, dispatch] = useSearchBar();
+  const { focus, query, suggestions, selectedSuggestion } = state;
 
   const submit = (text) => {
     onSearch(text);
-    clearInput();
+    dispatch({ type: ActionType.CLEAR_INPUT });
   };
 
   const handleFormSubmit = (e) => {
+    submit(selectedSuggestion?.q || query);
+
     e.preventDefault();
-
-    if (isSelectionValid) {
-      submit(suggestions[selectedIndex].q);
-    } else {
-      submit(queryText);
-    }
-
-    clearInput();
   };
 
   const handleKeyDown = (e) => {
-    let newIndex = selectedIndex;
-
     switch (e.keyCode) {
-      case 40: // Down arrow
-        newIndex = selectedIndex + 1;
-        break;
       case 38: // Up arrow
-        newIndex = selectedIndex - 1;
+        dispatch({ type: ActionType.PREV_SUGGESTION });
+        break;
+      case 40: // Down arrow
+        dispatch({ type: ActionType.NEXT_SUGGESTION });
         break;
       case 9: // Tab
       case 32: // Space bar
         // Autocomplete input with current selection
-        if (isSelectionValid) {
-          setQueryText(suggestions[selectedIndex].q);
-          newIndex = -1;
-          e.preventDefault(); // Prevent loss of focus
+        if (selectedSuggestion) {
+          dispatch({ type: ActionType.SET_QUERY, payload: selectedSuggestion.q });
+          e.preventDefault();
         }
         break;
       default:
         break;
     }
-
-    if (newIndex < -1) newIndex = -1;
-    if (newIndex >= suggestions.length) newIndex = 0;
-
-    setSelectedIndex(newIndex);
   };
 
   return (
@@ -68,20 +44,20 @@ function SearchBar({ onSearch }) {
         <input
           type="text"
           className="form-control"
-          value={queryText}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}
+          value={query}
+          onFocus={() => dispatch({ type: ActionType.SET_FOCUS, payload: true })}
+          onBlur={() => dispatch({ type: ActionType.SET_FOCUS, payload: false })}
           onKeyDown={handleKeyDown}
-          onChange={({ target }) => setQueryText(target.value)}
+          onChange={({ target }) => dispatch({ type: ActionType.SET_QUERY, payload: target.value })}
           placeholder="Ingrese un artículo para buscar..."
         />
 
         {
-        focus && !queryText.isEmptyOrWhitespace() && (
+        focus && !query.isEmptyOrWhitespace() && (
           <div
             className="d-flex align-items-center position-relative m-0"
             style={{ left: '-24px', width: 0, zIndex: 1000 }}
-            onMouseDown={clearInput}
+            onMouseDown={() => dispatch({ type: ActionType.CLEAR_INPUT })}
             role="button"
             aria-hidden
           >
@@ -96,12 +72,12 @@ function SearchBar({ onSearch }) {
       </form>
 
       {
-      focus && !queryText.isEmptyOrWhitespace() && (
+      focus && !query.isEmptyOrWhitespace() && (
         <AutosuggestBox
-          queryText={queryText}
+          queryText={query}
           suggestions={suggestions}
-          suggestionClick={submit}
-          selectedIndex={selectedIndex}
+          selected={selectedSuggestion}
+          onClick={submit}
         />
       )
       }
