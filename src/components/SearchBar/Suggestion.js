@@ -7,7 +7,6 @@ function Suggestion({ suggestion, isSelected, onClick }) {
 
   return (
     <button
-      key={suggestion.q}
       type="button"
       className={`btn dropdown-item py-2 ${isSelected ? 'active' : ''}`}
       onMouseDown={() => onClick(suggestion.q)}

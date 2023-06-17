@@ -9,6 +9,7 @@ function AutosuggestBox({ queryText, suggestions, suggestionClick, selectedIndex
         !queryText.isEmptyOrWhitespace()
         && suggestions.map((suggestion, index) => (
           <Suggestion
+            key={suggestion.q}
             suggestion={suggestion}
             isSelected={index === selectedIndex}
             onClick={suggestionClick}
