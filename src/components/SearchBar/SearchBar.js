@@ -12,52 +12,48 @@ function SearchBar({ onSearch }) {
   const isSelectionValid = selectedIndex !== -1 && selectedIndex < suggestions.length;
 
   const clearInput = () => {
-    setSelectedIndex(-1);
     setQueryText('');
+    setSelectedIndex(-1);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const submit = (text) => {
+    onSearch(text);
+    clearInput();
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
 
     if (isSelectionValid) {
-      onSearch(suggestions[selectedIndex].q);
+      submit(suggestions[selectedIndex].q);
     } else {
-      onSearch(queryText);
+      submit(queryText);
     }
 
     clearInput();
   };
 
-  const suggestionClick = (text) => {
-    onSearch(text);
-    clearInput();
-  };
-
-  const inputChange = (e) => {
-    const text = e.target.value;
-
-    setQueryText(text);
-  };
-
-  const keyDown = (e) => {
+  const handleKeyDown = (e) => {
     let newIndex = selectedIndex;
 
-    if (e.keyCode === 40) { // Down arrow = move down
-      newIndex = selectedIndex + 1;
-    } else if (e.keyCode === 38) { // Up arrow = move up
-      newIndex = selectedIndex - 1;
-    } else if (e.keyCode === 32) { // Space bar = autocomplete input with current selection
-      if (isSelectionValid) {
-        setQueryText(suggestions[selectedIndex].q);
-        newIndex = -1;
-      }
-    } else if (e.keyCode === 9) { // Tab = autocomplete input with current selection
-      if (isSelectionValid) {
-        setQueryText(suggestions[selectedIndex].q);
-        newIndex = -1;
-
-        e.preventDefault(); // Prevent loss of focus
-      }
+    switch (e.keyCode) {
+      case 40: // Down arrow
+        newIndex = selectedIndex + 1;
+        break;
+      case 38: // Up arrow
+        newIndex = selectedIndex - 1;
+        break;
+      case 9: // Tab
+      case 32: // Space bar
+        // Autocomplete input with current selection
+        if (isSelectionValid) {
+          setQueryText(suggestions[selectedIndex].q);
+          newIndex = -1;
+          e.preventDefault(); // Prevent loss of focus
+        }
+        break;
+      default:
+        break;
     }
 
     if (newIndex < -1) newIndex = -1;
@@ -68,16 +64,16 @@ function SearchBar({ onSearch }) {
 
   return (
     <div className="container position-relative">
-      <form className="input-group mb-1" onSubmit={handleSubmit}>
+      <form className="input-group mb-1" onSubmit={handleFormSubmit}>
         <input
           type="text"
           className="form-control"
           value={queryText}
-          onKeyDown={keyDown}
-          onChange={inputChange}
-          placeholder="Ingrese un artículo para buscar..."
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          onKeyDown={handleKeyDown}
+          onChange={({ target }) => setQueryText(target.value)}
+          placeholder="Ingrese un artículo para buscar..."
         />
 
         {
@@ -104,7 +100,7 @@ function SearchBar({ onSearch }) {
         <AutosuggestBox
           queryText={queryText}
           suggestions={suggestions}
-          suggestionClick={suggestionClick}
+          suggestionClick={submit}
           selectedIndex={selectedIndex}
         />
       )
