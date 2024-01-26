@@ -66,7 +66,11 @@ function Seller({ seller, results, totalPrice, freeShipping, onSelect }) {
         <span className="fs-3">
           {`$ ${totalPrice.toLocaleString()}`}
         </span>
-        <p className="text-muted text-capitalize d-none d-md-block">{ seller.address }</p>
+        {
+          seller.address
+            ? <p className="text-muted text-capitalize d-none d-md-block">{ seller.address }</p>
+            : <p className="text-muted text-capitalize d-none d-md-block">{ seller.name }</p>
+        }
         <div className="me-2 d-block d-md-none align-items-center">
           <FreeShippingBadge freeShipping={freeShipping} />
         </div>

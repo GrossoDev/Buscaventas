@@ -17,9 +17,9 @@ function parseResults(results) {
     seller: {
       id: result.seller.id,
       name: result.seller.nickname,
-      address: `${result.address.city_name}, ${result.address.state_name}`,
+      address: result.address ? `${result.address.city_name}, ${result.address.state_name}` : null,
       link: result.seller.permalink,
-      level: result.seller.seller_reputation.level_id
+      level: result.seller.seller_reputation?.level_id || 'red'
     }
   }));
 }

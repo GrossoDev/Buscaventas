@@ -12,6 +12,7 @@
     "bootstrap-icons": "^1.10.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
     "react-uuid": "^1.0.3",
     "web-vitals": "^2.1.4"
   },
@@ -20,7 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
@@ -41,13 +44,25 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.21",
+    "@storybook/addon-interactions": "^7.0.21",
+    "@storybook/addon-links": "^7.0.21",
+    "@storybook/blocks": "^7.0.21",
+    "@storybook/preset-create-react-app": "^7.0.21",
+    "@storybook/react": "^7.0.21",
+    "@storybook/react-webpack5": "^7.0.21",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "autoprefixer": "^10.4.10",
+    "babel-plugin-named-exports-order": "^0.0.2",
     "eslint": "^8.23.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "react-scripts": "5.0.1"
+    "eslint-plugin-storybook": "^0.6.12",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.21",
+    "webpack": "^5.87.0"
   }
 }
