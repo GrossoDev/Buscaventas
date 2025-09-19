@@ -1,3 +1,11 @@
+# \~This project is in limbo\~
+MercadoLibre has recently changed the way their web client gets search results.
+They used to return results as a JSON array, but now they respond with a server-side rendered page.
+
+Parsing the results would now require to do some scraping, and due to their CORS policy that can't be done in the browser.
+
+Until ML provides an API to search their site, or until I can be bothered to implement a proxy to scrape the results, this project is on hold.
+
 # Buscaventas
 Search engine that helps you find different products from the same seller using Mercado Libre's API.
 
